@@ -1,5 +1,6 @@
+import os
+import sys
 import unittest
-import sys, os
 sys.path.append(os.path.abspath(os.path.join('..')))
 
 from scripts.script import find_average, count_occurrence
@@ -18,15 +19,16 @@ class TestCases(unittest.TestCase):
         """
         Provide an assertion level for arg input
         """
-        
+
         self.assertRaises(TypeError, find_average, True)
+
 
 class TestCountOccurrence(unittest.TestCase):
     def test_count_occurrence(self):
         """
         Test that it returns the count of each unique values in the given list.
         """
-        data = [0,0,9,0,8,9,0,7]
+        data = [0, 0, 9, 0, 8, 9, 0, 7]
         result = count_occurrence(data)
         output = {0: 4, 9: 2, 8: 1, 7: 1}
         self.assertAlmostEqual(result, output)
@@ -36,6 +38,7 @@ class TestCountOccurrence(unittest.TestCase):
         Provide an assertion level for arg input
         """
         self.assertRaises(TypeError, count_occurrence, True)
+
 
 if __name__ == '__main__':
     unittest.main()
