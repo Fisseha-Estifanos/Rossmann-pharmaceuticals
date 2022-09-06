@@ -1,5 +1,7 @@
 [core]
     autostage = true
-    remote = remote-store
+    remote = local-store
 ['remote "remote-store"']
     url = gdrive://1tqW4fbN4G10FXhketTvLclHFM12_rsDo
+['remote "local-store"']
+    url = ../Usersf0x-tr0tDocumentseducationdatasciencedvc-storage
