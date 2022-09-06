@@ -1,5 +1,5 @@
 """
-A logger creator class.
+A helper script to create logging functionality.
 """
 
 # imports
