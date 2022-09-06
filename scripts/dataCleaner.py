@@ -339,93 +339,123 @@ class dataCleaner():
     # TODO: add comment
     # TODO: add logger
     def fix_missing_ffill(self, df, cols):
-        for col in cols:
-            old = df[col].isna().sum()
-            df[col] = df[col].fillna(method='ffill')
-            new = df[col].isna().sum()
-            if new == 0:
-                print(f"{old} missing values in the column {col} have been replaced \
-                    using the forward fill method.")
-            else:
-                count = old - new
-                print(f"{count} missing values in the column {col} have been replaced \
-                    using the forward fill method. {new} missing values that couldn't be \
-                    imputed still remain in the column {col}.")
+        try:
+            for col in cols:
+                old = df[col].isna().sum()
+                df[col] = df[col].fillna(method='ffill')
+                new = df[col].isna().sum()
+                if new == 0:
+                    print(f"{old} missing values in the column {col} have been replaced \
+                        using the forward fill method.")
+                else:
+                    count = old - new
+                    print(f"{count} missing values in the column {col} have been replaced \
+                        using the forward fill method. {new} missing values that couldn't be \
+                        imputed still remain in the column {col}.")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
 
     def fix_missing_bfill(self, df, cols):
-        for col in cols:
-            old = df[col].isna().sum()
-            df[col] = df[col].fillna(method='bfill')
-            new = df[col].isna().sum()
-            if new == 0:
-                print(f"{old} missing values in the column {col} have been replaced \
-                    using the backward fill method.")
-            else:
-                count = old - new
-                print(f"{count} missing values in the column {col} have been replaced \
-                    using the backward fill method. {new} missing values that couldn't be \
-                    imputed still remain in the column {col}.")
+        try:
+            for col in cols:
+                old = df[col].isna().sum()
+                df[col] = df[col].fillna(method='bfill')
+                new = df[col].isna().sum()
+                if new == 0:
+                    print(f"{old} missing values in the column {col} have been replaced \
+                        using the backward fill method.")
+                else:
+                    count = old - new
+                    print(f"{count} missing values in the column {col} have been replaced \
+                        using the backward fill method. {new} missing values that couldn't be \
+                        imputed still remain in the column {col}.")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
 
     def missing_values_table(self, df:pd.DataFrame):
         """
         A function to calculate missing values by column
         """
-        # Total missing values
-        mis_val = df.isnull().sum()
+        try:
+            # Total missing values
+            mis_val = df.isnull().sum()
 
-        # Percentage of missing values
-        mis_val_percent = 100 * mis_val / len(df)
+            # Percentage of missing values
+            mis_val_percent = 100 * mis_val / len(df)
 
-        # dtype of missing values
-        mis_val_dtype = df.dtypes
+            # dtype of missing values
+            mis_val_dtype = df.dtypes
 
-        # Make a table with the results
-        mis_val_table = pd.concat([mis_val, mis_val_percent, mis_val_dtype],
-                                  axis=1)
+            # Make a table with the results
+            mis_val_table = pd.concat([mis_val, mis_val_percent, mis_val_dtype],
+                                    axis=1)
 
-        # Rename the columns
-        mis_val_table_ren_columns = mis_val_table.rename(
-        columns = {0 : 'Missing Values', 1 : '% of Total Values', 2: 'Dtype'})
+            # Rename the columns
+            mis_val_table_ren_columns = mis_val_table.rename(
+            columns = {0 : 'Missing Values', 1 : '% of Total Values', 2: 'Dtype'})
 
-        # Sort the table by percentage of missing descending and remove columns with no missing values
-        mis_val_table_ren_columns = mis_val_table_ren_columns[
-            mis_val_table_ren_columns.iloc[:,0] != 0].sort_values(
-        '% of Total Values', ascending=False).round(2)
+            # Sort the table by percentage of missing descending and remove columns with no missing values
+            mis_val_table_ren_columns = mis_val_table_ren_columns[
+                mis_val_table_ren_columns.iloc[:,0] != 0].sort_values(
+            '% of Total Values', ascending=False).round(2)
 
-        # Print some summary information
-        print ("Your selected dataframe has " + str(df.shape[1]) + " columns.\n"
-            "There are " + str(mis_val_table_ren_columns.shape[0]) +
-            " columns that have missing values.")
-
-        if mis_val_table_ren_columns.shape[0] == 0:
-            return
-
-        # Return the dataframe with missing information
-        return mis_val_table_ren_columns
+            # Print some summary information
+            print ("Your selected dataframe has " + str(df.shape[1]) + " columns.\n"
+                "There are " + str(mis_val_table_ren_columns.shape[0]) +
+                " columns that have missing values.")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            if mis_val_table_ren_columns.shape[0] == 0:
+                return
+            # Return the dataframe with missing information
+            return mis_val_table_ren_columns
 
     def fix_missing_value(self, df, cols, value):
-        for col in cols:
-            count = df[col].isna().sum()
-            df[col] = df[col].fillna(value)
-            if type(value) == 'str':
-                print(f"{count} missing values in the column {col} have been replaced by \'{value}\'.")
-            else:
-                print(f"{count} missing values in the column {col} have been replaced by {value}.")
+        try:
+            for col in cols:
+                count = df[col].isna().sum()
+                df[col] = df[col].fillna(value)
+                if type(value) == 'str':
+                    print(f"{count} missing values in the column {col} have been replaced by \'{value}\'.")
+                else:
+                    print(f"{count} missing values in the column {col} have been replaced by {value}.")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
  
-    def convert_to_string(self, df, columns) -> pd.DataFrame : 
-        for col in columns:
-            df[col] = df[col].astype("string")
-        return df
+    def convert_to_string(self, df, columns) -> pd.DataFrame :
+        try: 
+            for col in columns:
+                df[col] = df[col].astype("string")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return df
 
     def convert_to_numeric(self, df, columns) -> pd.DataFrame:
-        for col in columns:
-            df[col] = pd.to_numeric(df[col])
-        return df
+        try:
+            for col in columns:
+                df[col] = pd.to_numeric(df[col])
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return df
 
     def convert_to_int(self, df, columns) -> pd.DataFrame:
-        for col in columns:
-            df[col] = df[col].astype("int64")
-        return df
+        try:
+            for col in columns:
+                df[col] = df[col].astype("int64")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return df
 
     def convert_to_datetime(self, df, columns) -> pd.DataFrame:
         try:
@@ -439,34 +469,52 @@ class dataCleaner():
             return df
 
     def multiply_by_factor(self, df, columns, factor) -> pd.DataFrame:
-        for col in columns:
-            df[col] = df[col] * factor
-        return df
+        try:
+            for col in columns:
+                df[col] = df[col] * factor
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return df
 
     def show_cols_mixed_dtypes(self, df):
-        mixed_dtypes = {'Column': [], 'Data type': []}
-        for col in df.columns:
-            dtype = pd.api.types.infer_dtype(df[col])
-            if dtype.startswith("mixed"):
-                mixed_dtypes['Column'].append(col)
-                mixed_dtypes['Data type'].append(dtype)
-        if len(mixed_dtypes['Column']) == 0:
-            print('None of the columns contain mixed types.')
-        else:
-            print(pd.DataFrame(mixed_dtypes))
+        try:
+            mixed_dtypes = {'Column': [], 'Data type': []}
+            for col in df.columns:
+                dtype = pd.api.types.infer_dtype(df[col])
+                if dtype.startswith("mixed"):
+                    mixed_dtypes['Column'].append(col)
+                    mixed_dtypes['Data type'].append(dtype)
+            if len(mixed_dtypes['Column']) == 0:
+                print('None of the columns contain mixed types.')
+            else:
+                print(pd.DataFrame(mixed_dtypes))
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
 
     def drop_duplicates(self, df):
-        old = df.shape[0]
-        df.drop_duplicates(inplace=True)
-        new = df.shape[0]
-        count = old - new
-        if (count == 0):
-            print("No duplicate rows were found.")
-        else:
-            print(f"{count} duplicate rows were found and removed.")
+        try:
+            old = df.shape[0]
+            df.drop_duplicates(inplace=True)
+            new = df.shape[0]
+            count = old - new
+            if (count == 0):
+                print("No duplicate rows were found.")
+            else:
+                print(f"{count} duplicate rows were found and removed.")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
     
     def getMonth(self, month_list, index):
-        months = ['0', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-        month_list = month_list.split(',')
-        month = month_list[index]
-        return months.index(month)
+        try:
+            months = ['0', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+            month_list = month_list.split(',')
+            month = month_list[index]
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return months.index(month)
