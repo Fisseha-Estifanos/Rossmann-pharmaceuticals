@@ -448,3 +448,13 @@ class dataCleaner():
             print('None of the columns contain mixed types.')
         else:
             print(pd.DataFrame(mixed_dtypes))
+
+    def drop_duplicates(df):
+        old = df.shape[0]
+        df.drop_duplicates(inplace=True)
+        new = df.shape[0]
+        count = old - new
+        if (count == 0):
+            print("No duplicate rows were found.")
+        else:
+            print(f"{count} duplicate rows were found and removed.")
