@@ -782,7 +782,7 @@ class dataCleaner():
         try:
             if type == 'csv':
                 df.to_csv(path, index=index)
-                self.logger.info(f'data frame: {df.info()} saved as a csv file at path: {path} successfully')
+                self.logger.debug(f'data frame with shape: {df.shape} saved as a csv file at path: {path} successfully')
                 print(f'data frame with shape: {df.shape} saved as a csv file at path: {path} successfully')
         except Exception as e:
             self.logger.error(e, exec_info=True)
