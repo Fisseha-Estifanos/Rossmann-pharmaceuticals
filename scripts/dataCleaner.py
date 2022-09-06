@@ -197,6 +197,7 @@ class dataCleaner():
         finally:
             return df
 
+    # TODO : compare the two outlier fixers
     def fix_outlier(self, df: pd.DataFrame, column: str) -> pd.DataFrame:
         """
         A function to fix outliers with median
@@ -224,38 +225,43 @@ class dataCleaner():
         finally:
             return df[column]
 
-    # TODO  : determine which one is better
-    def fix_outlier_(self, df: pd.DataFrame) -> pd.DataFrame:
+    def replace_outlier_with_median(self, dataFrame: pd.DataFrame, feature: str) -> pd.DataFrame:
         """
-        A function to fix outliers
-
+        A function to fix outliers with median
+        
         Parameters
         =--------=
-        df:  pandas data frame
+        df: pandas data frame
             The data frame containing the outlier columns
+        feature: str
+            The string name of the column with the outlier problem
 
         Returns
         =-----=
-        df:  pandas data frame
-            The data frame with the outlier columns fixed
+        dataFrame: pandas data frame
+            The fixed data frame
         """
         try:
-            self.logger.info('setting up columns to be fixed for outlier')
-            # TODO : either pass the outlier columns or checkout the columns
-            # list
-            column_name = list(df.columns[2:])
-            for i in column_name:
-                upper_quartile = df[i].quantile(0.75)
-                lower_quartile = df[i].quantile(0.25)
-                df[i] = np.where(df[i] > upper_quartile, df[i].median(),
-                                 np.where(df[i] < lower_quartile,
-                                 df[i].median(), df[i]))
-            self.logger.info('outliers fixed successfully')
+            Q1 = dataFrame[feature].quantile(0.25)
+            Q3 = dataFrame[feature].quantile(0.75)
+            median = dataFrame[feature].quantile(0.50)
+
+            IQR = Q3 - Q1
+
+            upper_whisker = Q3 + (1.5 * IQR)
+            lower_whisker = Q1 - (1.5 * IQR)
+
+            dataFrame[feature] = np.where(
+                dataFrame[feature] > upper_whisker, median, dataFrame[feature])
+            self.logger.info(f'column: {feature} outlier values greater than: {upper_whisker} fixed successfully with the median value of: {median}')
+            dataFrame[feature] = np.where(
+                dataFrame[feature] < lower_whisker, median, dataFrame[feature])
+            self.logger.info(f'column: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
         except Exception as e:
             self.logger.error(e)
             print(e)
         finally:
-            return df
+            return dataFrame
 
     def choose_k_means(self, df: pd.DataFrame, num: int):
         """
@@ -432,12 +438,12 @@ class dataCleaner():
         finally:
             return df
 
-    def multiply_by_factor(df, columns, factor) -> pd.DataFrame:
+    def multiply_by_factor(self, df, columns, factor) -> pd.DataFrame:
         for col in columns:
             df[col] = df[col] * factor
         return df
 
-    def show_cols_mixed_dtypes(df):
+    def show_cols_mixed_dtypes(self, df):
         mixed_dtypes = {'Column': [], 'Data type': []}
         for col in df.columns:
             dtype = pd.api.types.infer_dtype(df[col])
@@ -449,7 +455,7 @@ class dataCleaner():
         else:
             print(pd.DataFrame(mixed_dtypes))
 
-    def drop_duplicates(df):
+    def drop_duplicates(self, df):
         old = df.shape[0]
         df.drop_duplicates(inplace=True)
         new = df.shape[0]
@@ -458,3 +464,9 @@ class dataCleaner():
             print("No duplicate rows were found.")
         else:
             print(f"{count} duplicate rows were found and removed.")
+    
+    def getMonth(self, month_list, index):
+        months = ['0', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+        month_list = month_list.split(',')
+        month = month_list[index]
+        return months.index(month)
