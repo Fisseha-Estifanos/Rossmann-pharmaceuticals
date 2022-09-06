@@ -80,13 +80,12 @@ class dataVisualizer():
             file_handler.setFormatter(formatter)
             # adding file handler
             logger.addHandler(file_handler)
-
             print(f'logger {logger} created at path: {log_path}')
-            # return the logger object
         except Exception as e:
             logger.error(e, exec_info=True)
             print(e)
         finally:
+            # return the logger object
             return logger
 
     # TODO : add the name and things from last weeks pie plot function
