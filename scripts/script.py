@@ -19,5 +19,6 @@ def count_occurrence(a_list: list) -> dict:
             empty_dict[i] = 1
     return empty_dict
 
+
 if __name__ == '__main__':
     data = [0, 0, 9, 0, 8, 9, 0, 7]
