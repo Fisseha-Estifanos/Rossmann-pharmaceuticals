@@ -73,26 +73,25 @@ class dataCleaner():
             file_handler.setFormatter(formatter)
             # adding file handler
             logger.addHandler(file_handler)
-
             print(f'logger {logger} created at path: {log_path}')
-            # return the logger object
         except Exception as e:
             logger.error(e, exec_info=True)
             print(e)
         finally:
+            # return the logger object
             return logger
 
     def remove_unwanted_cols(self, df: pd.DataFrame,
                              cols: list) -> pd.DataFrame:
         """
-        A function to remove unwanted columns from a DataFrame
+        A function to remove unwanted features from a DataFrame
 
         Parameters
         =--------=
         df: pandas dataframe
             The data frame containing all the data
         cols: list
-            The unwanted columns lists
+            The unwanted features lists
 
         Returns
         =-----=
@@ -102,7 +101,8 @@ class dataCleaner():
         try:
             for col in cols:
                 df = df[df.columns.drop(list(df.filter(regex = col)))]
-                self.logger.info(f'column: {col} removed successfully')
+                self.logger.info(f'feature: {col} removed successfully')
+                print(f'feature: {col} removed successfully')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -128,7 +128,7 @@ class dataCleaner():
             # Calculate total number of cells in dataframe
             totalCells = np.product(df.shape)
 
-            # Count number of missing values per column
+            # Count number of missing values per feature
             missingCount = df.isnull().sum()
 
             # Calculate total number of missing values
@@ -151,7 +151,7 @@ class dataCleaner():
         df: pandas data frame
             The data frame with the null values
         cols: list
-            The list of columns to be filled with median values
+            The list of features to be filled with median values
 
         Returns
         =-----=
@@ -160,9 +160,11 @@ class dataCleaner():
             corresponding median values
         """
         try:
-            print(f'columns to be filled with median values: {cols}')
+            print(f'features to be filled with median values: {cols}')
+            self.logger.info(f'features to be filled with median values: {cols}')
             df[cols] = df[cols].fillna(df[cols].median())
-            self.logger.info(f'cols: {cols} filled with median successfully')
+            self.logger.info(f'features: {cols} filled with median successfully')
+            print(f'features: {cols} filled with median successfully')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -179,7 +181,7 @@ class dataCleaner():
         df: pandas data frame
             The data frame with the null values
         cols: list
-            The list of columns to be filled with mean values
+            The list of features to be filled with mean values
 
         Returns
         =-----=
@@ -188,9 +190,11 @@ class dataCleaner():
             corresponding mean values
         """
         try:
-            print(f'columns to be filled with mean values: {cols}')
+            self.logger.info(f'features to be filled with mean values: {cols}')
+            print(f'features to be filled with mean values: {cols}')
             df[cols] = df[cols].fillna(df[cols].mean())
             self.logger.info(f'cols: {cols} filled with mean successfully')
+            print(f'cols: {cols} filled with mean successfully')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -205,9 +209,9 @@ class dataCleaner():
         Parameters
         =--------=
         df: pandas data frame
-            The data frame containing the outlier columns
+            The data frame containing the outlier features
         column: str
-            The string name of the column with the outlier problem
+            The string name of the feature with the outlier problem
 
         Returns
         =-----=
@@ -215,10 +219,12 @@ class dataCleaner():
             The fixed data frame
         """
         try:
-            print(f'column to be filled with median values: {column}')
+            self.logger.info(f'feature to be filled with median values: {column}')
+            print(f'feature to be filled with median values: {column}')
             df[column] = np.where(df[column] > df[column].quantile(0.95),
                                   df[column].median(), df[column])
-            self.logger.info(f'column: {column} outlier fixed successfully')
+            self.logger.info(f'feature: {column} outlier fixed successfully')
+            print(f'feature: {column} outlier fixed successfully')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -232,9 +238,9 @@ class dataCleaner():
         Parameters
         =--------=
         df: pandas data frame
-            The data frame containing the outlier columns
+            The data frame containing the outlier features
         feature: str
-            The string name of the column with the outlier problem
+            The string name of the feature with the outlier problem
 
         Returns
         =-----=
@@ -253,10 +259,12 @@ class dataCleaner():
 
             dataFrame[feature] = np.where(
                 dataFrame[feature] > upper_whisker, median, dataFrame[feature])
-            self.logger.info(f'column: {feature} outlier values greater than: {upper_whisker} fixed successfully with the median value of: {median}')
+            self.logger.info(f'feature: {feature} outlier values greater than: {upper_whisker} fixed successfully with the median value of: {median}')
+            print(f'feature: {feature} outlier values greater than: {upper_whisker} fixed successfully with the median value of: {median}')
             dataFrame[feature] = np.where(
                 dataFrame[feature] < lower_whisker, median, dataFrame[feature])
-            self.logger.info(f'column: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
+            self.logger.info(f'feature: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
+            print(f'feature: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -308,11 +316,11 @@ class dataCleaner():
         df: pandas data frame
             The main data frame containing all the data
         cluster_col: str
-            The column name holding the cluster values
+            The feature name holding the cluster values
         cluster_size: integer
             The number of total cluster groups
         cols: list
-            The column list on which to provide description
+            The feature list on which to provide description
 
         Returns
         =-----=
@@ -361,13 +369,18 @@ class dataCleaner():
                 df[col] = df[col].fillna(method='ffill')
                 new = df[col].isna().sum()
                 if new == 0:
-                    print(f"{old} missing values in the column {col} have been replaced \
+                    print(f"{old} missing values in the feature {col} have been replaced \
+                        using the forward fill method.")
+                    self.logger.info(f"{old} missing values in the feature {col} have been replaced \
                         using the forward fill method.")
                 else:
                     count = old - new
-                    print(f"{count} missing values in the column {col} have been replaced \
+                    print(f"{count} missing values in the feature {col} have been replaced \
                         using the forward fill method. {new} missing values that couldn't be \
-                        imputed still remain in the column {col}.")
+                        imputed still remain in the feature {col}.")
+                    self.logger.info(f"{count} missing values in the feature {col} have been replaced \
+                        using the forward fill method. {new} missing values that couldn't be \
+                        imputed still remain in the features {col}.")
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -394,20 +407,25 @@ class dataCleaner():
                 df[col] = df[col].fillna(method='bfill')
                 new = df[col].isna().sum()
                 if new == 0:
-                    print(f"{old} missing values in the column {col} have been replaced \
+                    self.logger.info(f"{old} missing values in the feature {col} have been replaced \
+                        using the backward fill method.")
+                    print(f"{old} missing values in the feature {col} have been replaced \
                         using the backward fill method.")
                 else:
                     count = old - new
-                    print(f"{count} missing values in the column {col} have been replaced \
+                    self.logger.info(f"{count} missing values in the feature {col} have been replaced \
                         using the backward fill method. {new} missing values that couldn't be \
-                        imputed still remain in the column {col}.")
+                        imputed still remain in the feature {col}.")
+                    print(f"{count} missing values in the feature {col} have been replaced \
+                        using the backward fill method. {new} missing values that couldn't be \
+                        imputed still remain in the feature {col}.")
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
 
     def missing_values_table(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        A function to calculate missing values by column
+        A function to calculate missing values by features
 
         Parameters
         =--------=
@@ -433,19 +451,22 @@ class dataCleaner():
             mis_val_table = pd.concat([mis_val, mis_val_percent, mis_val_dtype],
                                     axis=1)
 
-            # Rename the columns
+            # Rename the features
             mis_val_table_ren_columns = mis_val_table.rename(
             columns = {0 : 'Missing Values', 1 : '% of Total Values', 2: 'Dtype'})
 
-            # Sort the table by percentage of missing descending and remove columns with no missing values
+            # Sort the table by percentage of missing descending and remove features with no missing values
             mis_val_table_ren_columns = mis_val_table_ren_columns[
                 mis_val_table_ren_columns.iloc[:,0] != 0].sort_values(
             '% of Total Values', ascending=False).round(2)
 
             # Print some summary information
-            print ("Your selected dataframe has " + str(df.shape[1]) + " columns.\n"
+            print ("Your selected dataframe has " + str(df.shape[1]) + " features.\n"
                 "There are " + str(mis_val_table_ren_columns.shape[0]) +
-                " columns that have missing values.")
+                " features that have missing values.")
+            self.logger.info("Your selected dataframe has " + str(df.shape[1]) + " features.\n"
+                "There are " + str(mis_val_table_ren_columns.shape[0]) +
+                " features that have missing values.")
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -464,7 +485,7 @@ class dataCleaner():
         df: pandas dataframe
             The main dataframe
         cols: list
-            List of features containing the names of the missing value columns
+            List of features containing the names of the missing values
         value: integer
             The value to fill the missing values with
         
@@ -478,9 +499,11 @@ class dataCleaner():
                 count = df[col].isna().sum()
                 df[col] = df[col].fillna(value)
                 if type(value) == 'str':
-                    print(f"{count} missing values in the column {col} have been replaced by \'{value}\'.")
+                    self.logger.info(f"{count} missing values in the feature {col} have been replaced by \'{value}\'.")
+                    print(f"{count} missing values in the feature {col} have been replaced by \'{value}\'.")
                 else:
-                    print(f"{count} missing values in the column {col} have been replaced by {value}.")
+                    self.logger.info(f"{count} missing values in the feature {col} have been replaced by {value}.")
+                    print(f"{count} missing values in the feature {col} have been replaced by {value}.")
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -504,6 +527,8 @@ class dataCleaner():
         try: 
             for col in columns:
                 df[col] = df[col].astype("string")
+                self.logger.info(f'feature: {col} converted to string data type format')
+                print(f'feature: {col} converted to string data type format')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -529,6 +554,8 @@ class dataCleaner():
         try:
             for col in columns:
                 df[col] = pd.to_numeric(df[col])
+                self.logger.info(f'feature: {col} converted to numeric data type format')
+                print(f'feature: {col} converted to numeric data type format')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -554,6 +581,8 @@ class dataCleaner():
         try:
             for col in columns:
                 df[col] = df[col].astype("int64")
+                self.logger.info(f'feature: {col} converted to integer data type format')
+                print(f'feature: {col} converted to integer data type format')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -579,7 +608,8 @@ class dataCleaner():
         try:
             for col in columns:
                 df[col] = pd.to_datetime(df[col], errors='raise')
-                self.logger.info(f'column: {col} successfully changed to datetime')
+                self.logger.info(f'feature: {col} successfully changed to datetime')
+                print(f'feature: {col} successfully changed to datetime')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -607,6 +637,8 @@ class dataCleaner():
         try:
             for col in columns:
                 df[col] = df[col] * factor
+                self.logger.info(f'feature: {col} multiplied by a factor of: {factor}')
+                print(f'feature: {col} multiplied by a factor of: {factor}')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
@@ -635,8 +667,10 @@ class dataCleaner():
                     mixed_dtypes['Column'].append(col)
                     mixed_dtypes['Data type'].append(dtype)
             if len(mixed_dtypes['Column']) == 0:
-                print('None of the columns contain mixed types.')
+                self.logger.info('None of the features contain mixed types.')
+                print('None of the features contain mixed types.')
             else:
+                self.logger.info(pd.DataFrame(mixed_dtypes))
                 print(pd.DataFrame(mixed_dtypes))
         except Exception as e:
             self.logger.error(e, exec_info=True)
@@ -662,8 +696,10 @@ class dataCleaner():
             new = df.shape[0]
             count = old - new
             if (count == 0):
+                self.logger.info("No duplicate rows were found.")
                 print("No duplicate rows were found.")
             else:
+                self.logger.info(f"{count} duplicate rows were found and removed.")
                 print(f"{count} duplicate rows were found and removed.")
         except Exception as e:
             self.logger.error(e, exec_info=True)
@@ -688,6 +724,7 @@ class dataCleaner():
             months = ['0', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
             month_list = month_list.split(',')
             month = month_list[index]
+            self.logger.info(f'month index calculated for the month: {month}. Value: {months.index(month)}')
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
