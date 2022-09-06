@@ -100,13 +100,14 @@ class dataCleaner():
             The dataframe rid of the unwanted cols
         """
         try:
-            df.drop(cols, axis=1, inplace=True)
-            self.logger.info(f'columns: {cols} removed successfully')
+            for col in cols:
+                df = df[df.columns.drop(list(df.filter(regex = col)))]
+                self.logger.info(f'column: {col} removed successfully')
         except Exception as e:
             self.logger.error(e)
             print(e)
         finally:
-            return df
+            return df        
 
     def percent_missing(self, df: pd.DataFrame) -> None:
         """
@@ -139,33 +140,6 @@ class dataCleaner():
         except Exception as e:
             self.logger.error(e)
             print(e)
-
-    # TODO : modify this so that is can receive the feature to be converted as
-    # a parameter
-    def convert_to_datetime(self, df: pd.DataFrame) -> pd.DataFrame:
-        """
-        A function to convert datetime column to datetime
-
-        Parameters
-        =--------=
-        df: pandas data frame
-            The data frame to modify
-
-        Returns
-        =-----=
-        df: pandas dataframe
-            The modified dataframe
-        """
-        try:
-            df['Start'] = pd.to_datetime(df['Start'], errors='raise')
-            df['End'] = pd.to_datetime(df['End'], errors='raise')
-            self.logger.info("features start and end successfully converted" +
-                             "to date time")
-        except Exception as e:
-            self.logger.error(e)
-            print(e)
-        finally:
-            return df
 
     def fillWithMedian(self, df: pd.DataFrame, cols: list) -> pd.DataFrame:
         """
@@ -352,7 +326,13 @@ class dataCleaner():
             self.logger.error(e)
             print(e)
 
-    def fix_missing_ffill(df, cols):
+
+
+    # new additions
+    # TODO: add try, except finally
+    # TODO: add comment
+    # TODO: add logger
+    def fix_missing_ffill(self, df, cols):
         for col in cols:
             old = df[col].isna().sum()
             df[col] = df[col].fillna(method='ffill')
@@ -366,7 +346,7 @@ class dataCleaner():
                     using the forward fill method. {new} missing values that couldn't be \
                     imputed still remain in the column {col}.")
 
-    def fix_missing_bfill(df, cols):
+    def fix_missing_bfill(self, df, cols):
         for col in cols:
             old = df[col].isna().sum()
             df[col] = df[col].fillna(method='bfill')
@@ -383,7 +363,6 @@ class dataCleaner():
     def missing_values_table(self, df:pd.DataFrame):
         """
         A function to calculate missing values by column
-        TODO: add comment and try catch
         """
         # Total missing values
         mis_val = df.isnull().sum()
@@ -418,7 +397,7 @@ class dataCleaner():
         # Return the dataframe with missing information
         return mis_val_table_ren_columns
 
-    def fix_missing_value(df, cols, value):
+    def fix_missing_value(self, df, cols, value):
         for col in cols:
             count = df[col].isna().sum()
             df[col] = df[col].fillna(value)
@@ -426,3 +405,46 @@ class dataCleaner():
                 print(f"{count} missing values in the column {col} have been replaced by \'{value}\'.")
             else:
                 print(f"{count} missing values in the column {col} have been replaced by {value}.")
+ 
+    def convert_to_string(self, df, columns) -> pd.DataFrame : 
+        for col in columns:
+            df[col] = df[col].astype("string")
+        return df
+
+    def convert_to_numeric(self, df, columns) -> pd.DataFrame:
+        for col in columns:
+            df[col] = pd.to_numeric(df[col])
+        return df
+
+    def convert_to_int(self, df, columns) -> pd.DataFrame:
+        for col in columns:
+            df[col] = df[col].astype("int64")
+        return df
+
+    def convert_to_datetime(self, df, columns) -> pd.DataFrame:
+        try:
+            for col in columns:
+                df[col] = pd.to_datetime(df[col], errors='raise')
+                self.logger.info(f'column: {col} successfully changed to datetime')
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return df
+
+    def multiply_by_factor(df, columns, factor) -> pd.DataFrame:
+        for col in columns:
+            df[col] = df[col] * factor
+        return df
+
+    def show_cols_mixed_dtypes(df):
+        mixed_dtypes = {'Column': [], 'Data type': []}
+        for col in df.columns:
+            dtype = pd.api.types.infer_dtype(df[col])
+            if dtype.startswith("mixed"):
+                mixed_dtypes['Column'].append(col)
+                mixed_dtypes['Data type'].append(dtype)
+        if len(mixed_dtypes['Column']) == 0:
+            print('None of the columns contain mixed types.')
+        else:
+            print(pd.DataFrame(mixed_dtypes))
