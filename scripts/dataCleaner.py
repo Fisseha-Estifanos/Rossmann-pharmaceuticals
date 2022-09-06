@@ -57,10 +57,10 @@ class dataCleaner():
             log_path = log_path
 
             # adding logger to the script
-            logger = logging.getLogger(__name__)
+            logger = logging.getLogger(self.__name__)
             print(f'--> {logger}')
             # setting the log level to info
-            logger.setLevel(logging.INFO)
+            logger.setLevel(logging.DEBUG)
             # setting up file handler
             file_handler = logging.FileHandler(log_path)
 
@@ -77,7 +77,7 @@ class dataCleaner():
             print(f'logger {logger} created at path: {log_path}')
             # return the logger object
         except Exception as e:
-            logger.error(e)
+            logger.error(e, exec_info=True)
             print(e)
         finally:
             return logger
@@ -104,7 +104,7 @@ class dataCleaner():
                 df = df[df.columns.drop(list(df.filter(regex = col)))]
                 self.logger.info(f'column: {col} removed successfully')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df        
@@ -138,7 +138,7 @@ class dataCleaner():
             print(f"The dataset contains {round(((totalMissing/totalCells)*100), 10)} % missing values")
             self.logger.info(f"The dataset contains {round(((totalMissing/totalCells)*100), 10)} % missing values")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
 
     def fillWithMedian(self, df: pd.DataFrame, cols: list) -> pd.DataFrame:
@@ -164,7 +164,7 @@ class dataCleaner():
             df[cols] = df[cols].fillna(df[cols].median())
             self.logger.info(f'cols: {cols} filled with median successfully')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -192,7 +192,7 @@ class dataCleaner():
             df[cols] = df[cols].fillna(df[cols].mean())
             self.logger.info(f'cols: {cols} filled with mean successfully')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -220,7 +220,7 @@ class dataCleaner():
                                   df[column].median(), df[column])
             self.logger.info(f'column: {column} outlier fixed successfully')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df[column]
@@ -258,7 +258,7 @@ class dataCleaner():
                 dataFrame[feature] < lower_whisker, median, dataFrame[feature])
             self.logger.info(f'column: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return dataFrame
@@ -292,7 +292,7 @@ class dataCleaner():
                              f'{inertias} calculated for {num} number of'
                              'clusters successfully')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return (distortions, inertias)
@@ -329,14 +329,14 @@ class dataCleaner():
             self.logger.info(f'basic analysis on {cluster_size} clusters' +
                              'computed successfully')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
 
 
 
     # new additions
-    # TODO: add try, except finally - DONE
-    # TODO: add comment 
+    # TODO: add try, except finally _ DONE
+    # TODO: add comment _ DONE
     # TODO: add logger
     # TODO: PEP8
     def fix_missing_ffill(self, df: pd.DatFrame, cols: list) -> None:
@@ -369,7 +369,7 @@ class dataCleaner():
                         using the forward fill method. {new} missing values that couldn't be \
                         imputed still remain in the column {col}.")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
 
     def fix_missing_bfill(self, df: pd.DatFrame, cols: list) -> None:
@@ -402,7 +402,7 @@ class dataCleaner():
                         using the backward fill method. {new} missing values that couldn't be \
                         imputed still remain in the column {col}.")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
 
     def missing_values_table(self, df: pd.DataFrame) -> pd.DataFrame:
@@ -447,7 +447,7 @@ class dataCleaner():
                 "There are " + str(mis_val_table_ren_columns.shape[0]) +
                 " columns that have missing values.")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             if mis_val_table_ren_columns.shape[0] == 0:
@@ -482,7 +482,7 @@ class dataCleaner():
                 else:
                     print(f"{count} missing values in the column {col} have been replaced by {value}.")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
  
     def convert_to_string(self, df: pd.DataFrame, columns: list) -> pd.DataFrame :
@@ -505,7 +505,7 @@ class dataCleaner():
             for col in columns:
                 df[col] = df[col].astype("string")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -530,7 +530,7 @@ class dataCleaner():
             for col in columns:
                 df[col] = pd.to_numeric(df[col])
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -555,7 +555,7 @@ class dataCleaner():
             for col in columns:
                 df[col] = df[col].astype("int64")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -581,7 +581,7 @@ class dataCleaner():
                 df[col] = pd.to_datetime(df[col], errors='raise')
                 self.logger.info(f'column: {col} successfully changed to datetime')
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -608,7 +608,7 @@ class dataCleaner():
             for col in columns:
                 df[col] = df[col] * factor
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return df
@@ -639,7 +639,7 @@ class dataCleaner():
             else:
                 print(pd.DataFrame(mixed_dtypes))
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
 
     def drop_duplicates(self, df: pd.DataFrame) -> None:
@@ -666,7 +666,7 @@ class dataCleaner():
             else:
                 print(f"{count} duplicate rows were found and removed.")
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
     
     def getMonth(self, month_list: list, index: int) -> int:
@@ -689,7 +689,7 @@ class dataCleaner():
             month_list = month_list.split(',')
             month = month_list[index]
         except Exception as e:
-            self.logger.error(e)
+            self.logger.error(e, exec_info=True)
             print(e)
         finally:
             return months.index(month)

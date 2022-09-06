@@ -1,12 +1,14 @@
 """
 A helper script to create logging functionality.
+For more logger attributes visit:
+https://docs.python.org/3/library/logging.html#logrecord-attributes
 """
 
 # imports
 import logging
 
 
-def setup_logger(log_path: str) -> logging.Logger:
+def setup_logger(self, log_path: str) -> logging.Logger:
         """
         A helper method to set up logging.
 
@@ -25,10 +27,10 @@ def setup_logger(log_path: str) -> logging.Logger:
             log_path = log_path
 
             # adding logger to the script
-            logger = logging.getLogger(__name__)
+            logger = logging.getLogger(self.__name__)
             print(f'--> {logger}')
             # setting the log level to info
-            logger.setLevel(logging.INFO)
+            logger.setLevel(logging.DEBUG)
             # setting up file handler
             file_handler= logging.FileHandler(log_path)
 
@@ -45,7 +47,7 @@ def setup_logger(log_path: str) -> logging.Logger:
             print(f'logger {logger} created at path: {log_path}')
             # return the logger object
         except Exception as e:
-            logger.error(e)
+            logger.error(e, exec_info=True)
             print(e)
         finally:
             return logger

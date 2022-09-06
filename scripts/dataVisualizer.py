@@ -64,10 +64,10 @@ class dataVisualizer():
             log_path = log_path
 
             # adding logger to the script
-            logger = logging.getLogger(__name__)
+            logger = logging.getLogger(self.__name__)
             print(f'--> {logger}')
             # setting the log level to info
-            logger.setLevel(logging.INFO)
+            logger.setLevel(logging.DEBUG)
             # setting up file handler
             file_handler = logging.FileHandler(log_path)
 
@@ -84,7 +84,7 @@ class dataVisualizer():
             print(f'logger {logger} created at path: {log_path}')
             # return the logger object
         except Exception as e:
-            logger.error(e)
+            logger.error(e, exec_info=True)
             print(e)
         finally:
             return logger
