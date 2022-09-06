@@ -758,3 +758,32 @@ class dataCleaner():
             print(e)
         finally:
             return data
+
+    def save_data(self, df: pd.DataFrame, path: str, type: str = 'csv', index: bool = False) -> None:
+        """
+        A function to save data frames to file
+
+        Parameters
+        =--------=
+        df: pandas data frame
+            The data frame to save
+        path: string
+            The path of the file to save to
+        type: string
+            The type of the file to be saved as
+        index: bool
+            Whether the file to be saved will have an index or not
+
+        Returns
+        =-----=
+        None: nothing
+            Just saves the data frame to file
+        """
+        try:
+            if type == 'csv':
+                df.to_csv(path, index=index)
+                self.logger.info(f'data frame: {df.info()} saved as a csv file at path: {path} successfully')
+                print(f'data frame with shape: {df.shape} saved as a csv file at path: {path} successfully')
+        except Exception as e:
+            self.logger.error(e, exec_info=True)
+            print(e)
