@@ -39,3 +39,29 @@ INFO : 2022-09-06 18:38:16,499 : dataVisualizer : __init__ -->
 
 INFO : 2022-09-06 18:38:44,368 : dataVisualizer : plot_box --> setting up box plot
 INFO : 2022-09-06 18:38:46,814 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:05:16,881 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for data preparation notebook    <--#####
+
+INFO : 2022-09-06 22:13:45,798 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for data preparation notebook    <--#####
+
+INFO : 2022-09-06 22:14:08,901 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:11,187 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:11,855 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:13,127 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:13,498 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:15,016 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:15,318 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:16,394 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:16,553 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:17,256 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:17,494 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:18,317 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:18,541 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:19,171 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:19,290 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:19,913 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:20,143 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:20,960 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-06 22:14:21,103 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-06 22:14:22,078 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
