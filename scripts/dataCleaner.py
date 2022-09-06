@@ -335,10 +335,26 @@ class dataCleaner():
 
 
     # new additions
-    # TODO: add try, except finally
-    # TODO: add comment
+    # TODO: add try, except finally - DONE
+    # TODO: add comment 
     # TODO: add logger
-    def fix_missing_ffill(self, df, cols):
+    # TODO: PEP8
+    def fix_missing_ffill(self, df: pd.DatFrame, cols: list) -> None:
+        """
+        A function to fill missing values with the ffill method
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        cols: list
+            A list containing the missing values
+
+        Returns
+        =-----=
+        None: nothing
+            Just fills the missing values
+        """
         try:
             for col in cols:
                 old = df[col].isna().sum()
@@ -356,7 +372,22 @@ class dataCleaner():
             self.logger.error(e)
             print(e)
 
-    def fix_missing_bfill(self, df, cols):
+    def fix_missing_bfill(self, df: pd.DatFrame, cols: list) -> None:
+        """
+        A function to fill missing values with the bfill method
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        cols: list
+            A list containing the missing values
+
+        Returns
+        =-----=
+        None: nothing
+            Just fills the missing values
+        """
         try:
             for col in cols:
                 old = df[col].isna().sum()
@@ -374,9 +405,19 @@ class dataCleaner():
             self.logger.error(e)
             print(e)
 
-    def missing_values_table(self, df:pd.DataFrame):
+    def missing_values_table(self, df: pd.DataFrame) -> pd.DataFrame:
         """
         A function to calculate missing values by column
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        
+        Returns
+        =-----=
+        mis_val_table_ren_columns: pandas data frame
+            The data frame containing missing value information
         """
         try:
             # Total missing values
@@ -414,7 +455,24 @@ class dataCleaner():
             # Return the dataframe with missing information
             return mis_val_table_ren_columns
 
-    def fix_missing_value(self, df, cols, value):
+    def fix_missing_value(self, df: pd.DataFrame, cols: list, value: int) -> None:
+        """
+        A function to fix missing values by a given value
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        cols: list
+            List of features containing the names of the missing value columns
+        value: integer
+            The value to fill the missing values with
+        
+        Returns
+        =-----=
+        None: noting
+            Just fills the missing value with a given value
+        """
         try:
             for col in cols:
                 count = df[col].isna().sum()
@@ -427,7 +485,22 @@ class dataCleaner():
             self.logger.error(e)
             print(e)
  
-    def convert_to_string(self, df, columns) -> pd.DataFrame :
+    def convert_to_string(self, df: pd.DataFrame, columns: list) -> pd.DataFrame :
+        """
+        A function to convert features to string data type
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        columns: list
+            List of features to be converted to string data types
+        
+        Returns
+        =-----=
+        df: pandas data frame
+            The converted data frame
+        """
         try: 
             for col in columns:
                 df[col] = df[col].astype("string")
@@ -437,7 +510,22 @@ class dataCleaner():
         finally:
             return df
 
-    def convert_to_numeric(self, df, columns) -> pd.DataFrame:
+    def convert_to_numeric(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
+        """
+        A function to convert features to numeric data type
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        columns: list
+            List of features to be converted to numeric data types
+        
+        Returns
+        =-----=
+        df: pandas data frame
+            The converted data frame
+        """
         try:
             for col in columns:
                 df[col] = pd.to_numeric(df[col])
@@ -447,7 +535,22 @@ class dataCleaner():
         finally:
             return df
 
-    def convert_to_int(self, df, columns) -> pd.DataFrame:
+    def convert_to_int(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
+        """
+        A function to convert features to integer data type
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        columns: list
+            List of features to be converted to integer data types
+        
+        Returns
+        =-----=
+        df: pandas data frame
+            The converted data frame
+        """
         try:
             for col in columns:
                 df[col] = df[col].astype("int64")
@@ -457,7 +560,22 @@ class dataCleaner():
         finally:
             return df
 
-    def convert_to_datetime(self, df, columns) -> pd.DataFrame:
+    def convert_to_datetime(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
+        """
+        A function to convert features to datetime data type
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        columns: list
+            List of features to be converted to datetime data types
+        
+        Returns
+        =-----=
+        df: pandas data frame
+            The converted data frame
+        """
         try:
             for col in columns:
                 df[col] = pd.to_datetime(df[col], errors='raise')
@@ -468,7 +586,24 @@ class dataCleaner():
         finally:
             return df
 
-    def multiply_by_factor(self, df, columns, factor) -> pd.DataFrame:
+    def multiply_by_factor(self, df: pd.DataFrame, columns: list, factor: float) -> pd.DataFrame:
+        """
+        A function that multiplies a features by a given factor
+
+        Parameters
+        =--------=
+        df: pandas dataframe
+            The main dataframe
+        columns: list
+            List of features to be multiplied by a factor
+        factor: float
+            The multiplying factor
+        
+        Returns
+        =-----=
+        df: pandas data frame
+            The multiplied data frame
+        """
         try:
             for col in columns:
                 df[col] = df[col] * factor
@@ -478,7 +613,20 @@ class dataCleaner():
         finally:
             return df
 
-    def show_cols_mixed_dtypes(self, df):
+    def show_cols_mixed_dtypes(self, df: pd.DataFrame) -> None:
+        """
+        A function to show mixed data types
+
+        Parameters
+        =--------=
+        df: pandas data frame
+            The main data frame
+
+        Returns
+        =-----=
+        None: nothing
+            Just prints the mixed data types
+        """
         try:
             mixed_dtypes = {'Column': [], 'Data type': []}
             for col in df.columns:
@@ -494,7 +642,20 @@ class dataCleaner():
             self.logger.error(e)
             print(e)
 
-    def drop_duplicates(self, df):
+    def drop_duplicates(self, df: pd.DataFrame) -> None:
+        """
+        A function to drop duplicates
+
+        Parameters
+        =--------=
+        df: pandas data frame
+            The main data frame
+
+        Returns
+        =-----=
+        None: nothing
+            Just drops duplicates from the data set
+        """
         try:
             old = df.shape[0]
             df.drop_duplicates(inplace=True)
@@ -508,7 +669,21 @@ class dataCleaner():
             self.logger.error(e)
             print(e)
     
-    def getMonth(self, month_list, index):
+    def getMonth(self, month_list: list, index: int) -> int:
+        """
+        A function to return the index of a given month
+
+        Parameters
+        =--------=
+        month_lits: list
+            List of months
+        index: int
+            The index of the required grouping
+        Returns
+        =-----=
+        months.index: int
+            The index of the given month
+        """
         try:
             months = ['0', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
             month_list = month_list.split(',')
