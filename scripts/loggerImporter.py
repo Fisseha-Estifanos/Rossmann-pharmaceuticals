@@ -43,11 +43,10 @@ def setup_logger(self, log_path: str) -> logging.Logger:
             file_handler.setFormatter(formatter)
             # adding file handler
             logger.addHandler(file_handler)
-
             print(f'logger {logger} created at path: {log_path}')
-            # return the logger object
         except Exception as e:
             logger.error(e, exec_info=True)
             print(e)
         finally:
+            # return the logger object
             return logger
