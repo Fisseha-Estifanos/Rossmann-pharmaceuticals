@@ -27,7 +27,7 @@ def setup_logger(self, log_path: str) -> logging.Logger:
             log_path = log_path
 
             # adding logger to the script
-            logger = logging.getLogger(self.__name__)
+            logger = logging.getLogger(__name__)
             print(f'--> {logger}')
             # setting the log level to info
             logger.setLevel(logging.DEBUG)

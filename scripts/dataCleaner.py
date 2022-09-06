@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
 import logging
-
+from sklearn import preprocessing
 
 class dataCleaner():
     """
@@ -33,7 +33,7 @@ class dataCleaner():
             # setting up logger
             self.logger = self.setup_logger('../logs/cleaner_root.log')
             self.logger.info('\n    #####-->    Data cleaner logger for ' +
-                             f'{fromThe}    <--#####\n')
+                            f'{fromThe}    <--#####\n')
             print('Data cleaner in action')
         except Exception as e:
             print(e)
@@ -57,7 +57,7 @@ class dataCleaner():
             log_path = log_path
 
             # adding logger to the script
-            logger = logging.getLogger(self.__name__)
+            logger = logging.getLogger(__name__)
             print(f'--> {logger}')
             # setting the log level to info
             logger.setLevel(logging.DEBUG)
@@ -345,9 +345,9 @@ class dataCleaner():
     # new additions
     # TODO: add try, except finally _ DONE
     # TODO: add comment _ DONE
-    # TODO: add logger
+    # TODO: add logger _ DONE
     # TODO: PEP8
-    def fix_missing_ffill(self, df: pd.DatFrame, cols: list) -> None:
+    def fix_missing_ffill(self, df: pd.DataFrame, cols: list) -> None:
         """
         A function to fill missing values with the ffill method
 
@@ -385,7 +385,7 @@ class dataCleaner():
             self.logger.error(e, exec_info=True)
             print(e)
 
-    def fix_missing_bfill(self, df: pd.DatFrame, cols: list) -> None:
+    def fix_missing_bfill(self, df: pd.DataFrame, cols: list) -> None:
         """
         A function to fill missing values with the bfill method
 
@@ -730,3 +730,31 @@ class dataCleaner():
             print(e)
         finally:
             return months.index(month)
+
+    def encode_to_numeric(self, data: pd.DataFrame, columns: list) -> pd.DataFrame:
+        """
+        A function to change categorical variables to numerical value
+        
+        Parameters
+        =--------=
+        data: pandas data frame
+            The main data frame
+        columns: list
+            The list of features to be label encoded
+        
+        Returns
+        =-----=
+        data: pandas dataframe
+            The data frame with selected features label encoded
+        """
+        try:
+            lb = preprocessing.LabelEncoder()
+            for cols in columns:
+                data[cols] = lb.fit_transform(data[cols])
+                self.logger.info(f'feature: {cols} label encoded')
+                print(f'feature: {cols} label encoded')
+        except Exception as e:
+            self.logger.error(e, exec_info=True)
+            print(e)
+        finally:
+            return data

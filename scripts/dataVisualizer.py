@@ -28,22 +28,26 @@ class dataVisualizer():
             This will return nothing, it just sets up the data visualizer
             script.
         """
-        # setting up logger
-        self.logger = self.setup_logger('../logs/visualizer_root.log')
-        self.logger.info('\n    #####-->    Data visualizer logger for ' +
-                         f'{fromThe}    <--#####\n')
-        print('Data visualizer in action')
+        try:
+            # setting up logger
+            self.logger = self.setup_logger('../logs/visualizer_root.log')
+            self.logger.info('\n    #####-->    Data visualizer logger for ' +
+                            f'{fromThe}    <--#####\n')
+            print('Data visualizer in action')
+        except Exception as e:
+            print(e)
 
         # setting up seaborn styles
         # pals = ['deep', 'muted', 'bright', 'pastel', 'dark', 'colorblind']
         # sns.color_palette(palette='pastel')
         # TODO: remove any other color
         sns.set_theme(style="darkgrid")
-        # TODO : modify all log messages properly
-        # TODO : add comments to all visualizer functions
-        # TODO : add try catch to all visualizer functions
-        # TODO : add save_as parameter just like the plot_count function for
+        # TODO: add try catch to all visualizer functions
+        # TODO: add comments to all visualizer functions
+        # TODO: modify all log messages properly
+        # TODO: add save_as parameter just like the plot_count function for
         # all functions
+        # TODO: PEP8
 
     def setup_logger(self, log_path: str) -> logging.Logger:
         """
@@ -64,7 +68,7 @@ class dataVisualizer():
             log_path = log_path
 
             # adding logger to the script
-            logger = logging.getLogger(self.__name__)
+            logger = logging.getLogger(__name__)
             print(f'--> {logger}')
             # setting the log level to info
             logger.setLevel(logging.DEBUG)
