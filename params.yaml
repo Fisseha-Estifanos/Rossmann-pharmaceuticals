@@ -1,0 +1,15 @@
+preparation:
+  version: 'v1'
+  fromThe: 'data preparation stage'
+  missing_values: ["n/a", "na", "undefined", '?', 'NA', 'undefined']
+  storeDataFileName: 'store.csv'
+  testDataFileName: 'test.csv'
+  trainDataFileName: 'train.csv'
+eda:
+  version: 'v1'
+  fromThe: 'explanatory data analysis stage'
+  missing_values: ["n/a", "na", "undefined", '?', 'NA', 'undefined']
+  toreDataFileName: 'store.csv'
+  testDataFileName: 'test.csv'
+  trainDataFileName: 'train.csv'
+  
