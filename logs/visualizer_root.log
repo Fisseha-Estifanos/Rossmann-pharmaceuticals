@@ -125,3 +125,46 @@ INFO : 2022-09-07 13:32:26,617 : dataVisualizer : __init__ -->
 
 INFO : 2022-09-07 13:38:18,236 : dataVisualizer : plot_hist --> setting up distribution plot
 INFO : 2022-09-07 13:38:33,311 : dataVisualizer : plot_hist --> Promo hist plot plotted successfully
+INFO : 2022-09-07 14:01:47,675 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 14:01:49,655 : dataVisualizer : plot_hist --> Promo hist plot plotted successfully
+INFO : 2022-09-07 14:05:55,852 : dataVisualizer : plot_pie --> StoreType pie plot plotted successfully
+INFO : 2022-09-07 14:07:42,980 : dataVisualizer : plot_pie --> Assortment pie plot plotted successfully
+INFO : 2022-09-07 14:08:01,843 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 14:08:02,815 : dataVisualizer : plot_count --> DayOfWeek count plot plotted successfully
+INFO : 2022-09-07 14:08:24,662 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 14:08:50,722 : dataVisualizer : plot_hist --> Sales hist plot plotted successfully
+INFO : 2022-09-07 14:09:27,196 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 14:09:48,054 : dataVisualizer : plot_hist --> Customers hist plot plotted successfully
+INFO : 2022-09-07 14:09:48,791 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 14:09:50,402 : dataVisualizer : plot_count --> Open count plot plotted successfully
+INFO : 2022-09-07 14:09:51,619 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 14:09:52,166 : dataVisualizer : plot_count --> Promo count plot plotted successfully
+INFO : 2022-09-07 14:12:50,787 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 14:12:50,857 : dataVisualizer : plot_count --> Promo2 count plot plotted successfully
+INFO : 2022-09-07 14:38:36,876 : dataVisualizer : plot_scatter --> setting up scatter plot
+INFO : 2022-09-07 14:39:48,751 : dataVisualizer : plot_scatter --> scatter for month and sales scatter plot plotted successfully
+INFO : 2022-09-07 14:41:16,149 : dataVisualizer : plot_scatter --> setting up scatter plot
+INFO : 2022-09-07 14:42:28,692 : dataVisualizer : plot_scatter --> scatter for month and customers scatter plot plotted successfully
+INFO : 2022-09-07 22:03:14,386 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for data preparation notebook    <--#####
+
+INFO : 2022-09-07 22:03:34,288 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:35,948 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:36,367 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:36,918 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:37,334 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:37,951 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:38,084 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:38,859 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:39,203 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:39,596 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:39,716 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:40,274 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:40,663 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:41,101 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:41,271 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:42,185 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:42,580 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:43,039 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 22:03:43,463 : dataVisualizer : plot_box --> setting up box plot
+INFO : 2022-09-07 22:03:43,984 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
