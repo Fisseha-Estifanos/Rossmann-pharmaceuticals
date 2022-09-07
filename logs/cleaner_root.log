@@ -36234,3 +36234,9 @@ DEBUG : 2022-09-07 23:51:47,411 : dataCleaner : save_data --> data frame with sh
 DEBUG : 2022-09-07 23:51:47,411 : dataCleaner : save_data --> data frame with shape: (1017209, 27) saved as a csv file at path: ../rossmann-store-sales/merged.csv successfully
 DEBUG : 2022-09-07 23:51:47,411 : dataCleaner : save_data --> data frame with shape: (1017209, 27) saved as a csv file at path: ../rossmann-store-sales/merged.csv successfully
 DEBUG : 2022-09-07 23:51:47,411 : dataCleaner : save_data --> data frame with shape: (1017209, 27) saved as a csv file at path: ../rossmann-store-sales/merged.csv successfully
+INFO : 2022-09-07 23:54:42,458 : dataCleaner : __init__ --> 
+    #####-->    Data cleaner logger for exploratory data analysis notebook    <--#####
+
+INFO : 2022-09-08 00:18:33,045 : dataCleaner : change_columns_type_to --> Successfully changed column: CompetitionOpenSinceMonth type to int64
+INFO : 2022-09-08 00:18:33,098 : dataCleaner : change_columns_type_to --> Successfully changed column: CompetitionOpenSinceYear type to int64
+INFO : 2022-09-08 00:18:34,077 : dataCleaner : optimize_df --> DataFrame optimized

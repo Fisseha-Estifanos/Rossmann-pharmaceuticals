@@ -292,3 +292,36 @@ INFO : 2022-09-07 23:49:35,167 : dataVisualizer : plot_box --> Outliers box plot
 INFO : 2022-09-07 23:49:35,167 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
 INFO : 2022-09-07 23:49:35,167 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
 INFO : 2022-09-07 23:49:35,167 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 23:54:42,470 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for exploratory data analysis notebook    <--#####
+
+INFO : 2022-09-07 23:55:43,793 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 23:55:56,630 : dataVisualizer : plot_hist --> Promo hist plot plotted successfully
+INFO : 2022-09-07 23:55:56,798 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 23:55:58,766 : dataVisualizer : plot_hist --> Promo hist plot plotted successfully
+INFO : 2022-09-07 23:56:41,361 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 23:56:41,698 : dataVisualizer : plot_count --> DayOfWeek count plot plotted successfully
+INFO : 2022-09-07 23:56:42,845 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 23:56:58,143 : dataVisualizer : plot_hist --> Sales hist plot plotted successfully
+INFO : 2022-09-07 23:56:58,363 : dataVisualizer : plot_hist --> setting up distribution plot
+INFO : 2022-09-07 23:57:13,181 : dataVisualizer : plot_hist --> Customers hist plot plotted successfully
+INFO : 2022-09-07 23:57:13,406 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 23:57:13,750 : dataVisualizer : plot_count --> Open count plot plotted successfully
+INFO : 2022-09-07 23:57:14,445 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 23:57:14,729 : dataVisualizer : plot_count --> Promo count plot plotted successfully
+INFO : 2022-09-07 23:57:17,130 : dataVisualizer : plot_count --> setting up count plot
+INFO : 2022-09-07 23:57:17,186 : dataVisualizer : plot_count --> Promo2 count plot plotted successfully
+INFO : 2022-09-08 00:11:26,125 : dataVisualizer : plot_scatter --> setting up scatter plot
+INFO : 2022-09-08 00:12:15,642 : dataVisualizer : plot_scatter --> scatter for month and sales scatter plot plotted successfully
+INFO : 2022-09-08 00:12:43,261 : dataVisualizer : plot_scatter --> setting up scatter plot
+INFO : 2022-09-08 00:13:33,200 : dataVisualizer : plot_scatter --> scatter for month and customers scatter plot plotted successfully
+INFO : 2022-09-08 00:13:34,841 : dataVisualizer : plot_scatter --> setting up scatter plot
+INFO : 2022-09-08 00:15:18,564 : dataVisualizer : plot_scatter --> scatter for month and sales scatter plot plotted successfully
+INFO : 2022-09-08 00:19:59,866 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:20:50,586 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:23:19,453 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:25:25,485 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:28:14,259 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:29:21,814 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:30:13,140 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 00:31:02,446 : dataVisualizer : plot_factor --> setting up factor plot
