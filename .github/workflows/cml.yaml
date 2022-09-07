@@ -1,0 +1,50 @@
+name: Base cml actions
+on: 
+  push:
+    branches:
+    - main
+    - eda
+    - data-pred
+  pull_request:
+jobs:
+  Explore-GitHub-Actions:
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
+      
+      - uses: iterative/setup-cml@v1
+      - name: generate cml report
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "# Data preparation generated data frames" >> report.md
+          echo "* Cleaned training data frame" >> report.md
+          cml publish plots/train_data.png --md >> report.md
+          echo "* Cleaned store data frame" >> report.md
+          cml publish plots/store_data.png --md >> report.md
+          echo "* Cleaned (store data set X training data set) merged data frame" >> report.md
+          cml publish plots/full_data.png --md >> report.md
+
+          echo "# EDA generated plots" >> report.md
+          echo "* Month X Sales X promotion scatter plot" >> report.md
+          cml publish plots/scatter-sales-month-promo.png --md >> report.md
+          echo "* Sales X competition distance scatter plot" >> report.md
+          cml publish plots/scatter-sales-comp-distance.png --md >> report.md
+
+          echo "* Assortment" >> report.md
+          cml publish plots/assortment.png --md >> report.md
+          echo "* Competition distance" >> report.md
+          cml publish plots/comp-dist.png --md >> report.md
+          echo "* School holiday" >> report.md
+          cml publish plots/school-hol.png --md >> report.md
+          echo "* State holiday" >> report.md
+          cml publish plots/state-hol.png --md >> report.md
+
+          cml send-comment report.md
