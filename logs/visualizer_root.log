@@ -111,3 +111,12 @@ INFO : 2022-09-07 08:10:11,083 : dataVisualizer : plot_box --> setting up box pl
 INFO : 2022-09-07 08:10:11,700 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
 INFO : 2022-09-07 08:10:11,884 : dataVisualizer : plot_box --> setting up box plot
 INFO : 2022-09-07 08:10:12,458 : dataVisualizer : plot_box --> Outliers box plot plotted successfully
+INFO : 2022-09-07 09:17:17,364 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for explanatory data analysis notebook    <--#####
+
+INFO : 2022-09-07 09:27:08,629 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for exploratory data analysis notebook    <--#####
+
+INFO : 2022-09-07 09:27:08,629 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for exploratory data analysis notebook    <--#####
+

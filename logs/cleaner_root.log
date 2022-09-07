@@ -13613,3 +13613,12 @@ DEBUG : 2022-09-07 08:11:09,827 : dataCleaner : save_data --> data frame with sh
 DEBUG : 2022-09-07 08:11:11,192 : dataCleaner : save_data --> data frame with shape: (41088, 8) saved as a csv file at path: ../rossmann-store-sales/test.csv successfully
 DEBUG : 2022-09-07 08:11:11,211 : dataCleaner : save_data --> data frame with shape: (1115, 14) saved as a csv file at path: ../rossmann-store-sales/store.csv successfully
 DEBUG : 2022-09-07 08:11:53,621 : dataCleaner : save_data --> data frame with shape: (1017209, 27) saved as a csv file at path: ../rossmann-store-sales/merged.csv successfully
+INFO : 2022-09-07 09:17:17,349 : dataCleaner : __init__ --> 
+    #####-->    Data cleaner logger for explanatory data analysis notebook    <--#####
+
+INFO : 2022-09-07 09:27:08,277 : dataCleaner : __init__ --> 
+    #####-->    Data cleaner logger for exploratory data analysis notebook    <--#####
+
+INFO : 2022-09-07 09:27:08,277 : dataCleaner : __init__ --> 
+    #####-->    Data cleaner logger for exploratory data analysis notebook    <--#####
+
