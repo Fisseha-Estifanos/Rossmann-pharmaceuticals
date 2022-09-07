@@ -12,7 +12,7 @@ jobs:
     container: docker://dvcorg/cml-py3:latest
     steps:
     - uses: actions/checkout@v2
-    - name: setup_scrits & install dependency
+    - name: setup_scripts & install dependency
       run: | 
         pip install -r requirements.txt
         python scripts/script.py
