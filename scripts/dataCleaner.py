@@ -8,7 +8,7 @@ import numpy as np
 from sklearn.cluster import KMeans
 from scipy.spatial.distance import cdist
 import logging
-from sklearn import preprocessing
+
 
 class dataCleaner():
     """
@@ -33,7 +33,7 @@ class dataCleaner():
             # setting up logger
             self.logger = self.setup_logger('../logs/cleaner_root.log')
             self.logger.info('\n    #####-->    Data cleaner logger for ' +
-                            f'{fromThe}    <--#####\n')
+                             f'{fromThe}    <--#####\n')
             print('Data cleaner in action')
         except Exception as e:
             print(e)
@@ -60,7 +60,7 @@ class dataCleaner():
             logger = logging.getLogger(__name__)
             print(f'--> {logger}')
             # setting the log level to info
-            logger.setLevel(logging.DEBUG)
+            logger.setLevel(logging.INFO)
             # setting up file handler
             file_handler = logging.FileHandler(log_path)
 
@@ -73,25 +73,26 @@ class dataCleaner():
             file_handler.setFormatter(formatter)
             # adding file handler
             logger.addHandler(file_handler)
+
             print(f'logger {logger} created at path: {log_path}')
+            # return the logger object
         except Exception as e:
-            logger.error(e, exec_info=True)
+            logger.error(e)
             print(e)
         finally:
-            # return the logger object
             return logger
 
     def remove_unwanted_cols(self, df: pd.DataFrame,
                              cols: list) -> pd.DataFrame:
         """
-        A function to remove unwanted features from a DataFrame
+        A function to remove unwanted columns from a DataFrame
 
         Parameters
         =--------=
         df: pandas dataframe
             The data frame containing all the data
         cols: list
-            The unwanted features lists
+            The unwanted columns lists
 
         Returns
         =-----=
@@ -99,15 +100,13 @@ class dataCleaner():
             The dataframe rid of the unwanted cols
         """
         try:
-            for col in cols:
-                df = df[df.columns.drop(list(df.filter(regex = col)))]
-                self.logger.info(f'feature: {col} removed successfully')
-                print(f'feature: {col} removed successfully')
+            df.drop(cols, axis=1, inplace=True)
+            self.logger.info(f'columns: {cols} removed successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
         finally:
-            return df        
+            return df
 
     def percent_missing(self, df: pd.DataFrame) -> None:
         """
@@ -128,18 +127,49 @@ class dataCleaner():
             # Calculate total number of cells in dataframe
             totalCells = np.product(df.shape)
 
-            # Count number of missing values per feature
+            # Count number of missing values per column
             missingCount = df.isnull().sum()
 
             # Calculate total number of missing values
             totalMissing = missingCount.sum()
 
             # Calculate percentage of missing values
-            print(f"The dataset contains {round(((totalMissing/totalCells)*100), 10)} % missing values")
-            self.logger.info(f"The dataset contains {round(((totalMissing/totalCells)*100), 10)} % missing values")
+            print("The dataset contains", round(((totalMissing/totalCells) *
+                                                100), 10), "%",
+                  "missing values.")
+            self.logger.info("The dataset contains", round((
+                                                (totalMissing/totalCells)*100
+                                                ), 10), "%", "missing values")
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
+
+    # TODO : modify this so that is can receive the feature to be converted as
+    # a parameter
+    def convert_to_datetime(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        A function to convert datetime column to datetime
+
+        Parameters
+        =--------=
+        df: pandas data frame
+            The data frame to modify
+
+        Returns
+        =-----=
+        df: pandas dataframe
+            The modified dataframe
+        """
+        try:
+            df['Start'] = pd.to_datetime(df['Start'], errors='raise')
+            df['End'] = pd.to_datetime(df['End'], errors='raise')
+            self.logger.info("features start and end successfully converted" +
+                             "to date time")
+        except Exception as e:
+            self.logger.error(e)
+            print(e)
+        finally:
+            return df
 
     def fillWithMedian(self, df: pd.DataFrame, cols: list) -> pd.DataFrame:
         """
@@ -151,7 +181,7 @@ class dataCleaner():
         df: pandas data frame
             The data frame with the null values
         cols: list
-            The list of features to be filled with median values
+            The list of columns to be filled with median values
 
         Returns
         =-----=
@@ -160,13 +190,11 @@ class dataCleaner():
             corresponding median values
         """
         try:
-            print(f'features to be filled with median values: {cols}')
-            self.logger.info(f'features to be filled with median values: {cols}')
+            print(f'columns to be filled with median values: {cols}')
             df[cols] = df[cols].fillna(df[cols].median())
-            self.logger.info(f'features: {cols} filled with median successfully')
-            print(f'features: {cols} filled with median successfully')
+            self.logger.info(f'cols: {cols} filled with median successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
         finally:
             return df
@@ -181,7 +209,7 @@ class dataCleaner():
         df: pandas data frame
             The data frame with the null values
         cols: list
-            The list of features to be filled with mean values
+            The list of columns to be filled with mean values
 
         Returns
         =-----=
@@ -190,18 +218,15 @@ class dataCleaner():
             corresponding mean values
         """
         try:
-            self.logger.info(f'features to be filled with mean values: {cols}')
-            print(f'features to be filled with mean values: {cols}')
+            print(f'columns to be filled with mean values: {cols}')
             df[cols] = df[cols].fillna(df[cols].mean())
             self.logger.info(f'cols: {cols} filled with mean successfully')
-            print(f'cols: {cols} filled with mean successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
         finally:
             return df
 
-    # TODO : compare the two outlier fixers
     def fix_outlier(self, df: pd.DataFrame, column: str) -> pd.DataFrame:
         """
         A function to fix outliers with median
@@ -209,9 +234,9 @@ class dataCleaner():
         Parameters
         =--------=
         df: pandas data frame
-            The data frame containing the outlier features
+            The data frame containing the outlier columns
         column: str
-            The string name of the feature with the outlier problem
+            The string name of the column with the outlier problem
 
         Returns
         =-----=
@@ -219,57 +244,48 @@ class dataCleaner():
             The fixed data frame
         """
         try:
-            self.logger.info(f'feature to be filled with median values: {column}')
-            print(f'feature to be filled with median values: {column}')
+            print(f'column to be filled with median values: {column}')
             df[column] = np.where(df[column] > df[column].quantile(0.95),
                                   df[column].median(), df[column])
-            self.logger.info(f'feature: {column} outlier fixed successfully')
-            print(f'feature: {column} outlier fixed successfully')
+            self.logger.info(f'column: {column} outlier fixed successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
         finally:
             return df[column]
 
-    def replace_outlier_with_median(self, dataFrame: pd.DataFrame, feature: str) -> pd.DataFrame:
+    # TODO  : determine which one is better
+    def fix_outlier_(self, df: pd.DataFrame) -> pd.DataFrame:
         """
-        A function to fix outliers with median
-        
+        A function to fix outliers
+
         Parameters
         =--------=
-        df: pandas data frame
-            The data frame containing the outlier features
-        feature: str
-            The string name of the feature with the outlier problem
+        df:  pandas data frame
+            The data frame containing the outlier columns
 
         Returns
         =-----=
-        dataFrame: pandas data frame
-            The fixed data frame
+        df:  pandas data frame
+            The data frame with the outlier columns fixed
         """
         try:
-            Q1 = dataFrame[feature].quantile(0.25)
-            Q3 = dataFrame[feature].quantile(0.75)
-            median = dataFrame[feature].quantile(0.50)
-
-            IQR = Q3 - Q1
-
-            upper_whisker = Q3 + (1.5 * IQR)
-            lower_whisker = Q1 - (1.5 * IQR)
-
-            dataFrame[feature] = np.where(
-                dataFrame[feature] > upper_whisker, median, dataFrame[feature])
-            self.logger.info(f'feature: {feature} outlier values greater than: {upper_whisker} fixed successfully with the median value of: {median}')
-            print(f'feature: {feature} outlier values greater than: {upper_whisker} fixed successfully with the median value of: {median}')
-            dataFrame[feature] = np.where(
-                dataFrame[feature] < lower_whisker, median, dataFrame[feature])
-            self.logger.info(f'feature: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
-            print(f'feature: {feature} outlier values less than: {lower_whisker} fixed successfully with the median value of: {median}')
+            self.logger.info('setting up columns to be fixed for outlier')
+            # TODO : either pass the outlier columns or checkout the columns
+            # list
+            column_name = list(df.columns[2:])
+            for i in column_name:
+                upper_quartile = df[i].quantile(0.75)
+                lower_quartile = df[i].quantile(0.25)
+                df[i] = np.where(df[i] > upper_quartile, df[i].median(),
+                                 np.where(df[i] < lower_quartile,
+                                 df[i].median(), df[i]))
+            self.logger.info('outliers fixed successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
         finally:
-            return dataFrame
+            return df
 
     def choose_k_means(self, df: pd.DataFrame, num: int):
         """
@@ -300,7 +316,7 @@ class dataCleaner():
                              f'{inertias} calculated for {num} number of'
                              'clusters successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
         finally:
             return (distortions, inertias)
@@ -316,11 +332,11 @@ class dataCleaner():
         df: pandas data frame
             The main data frame containing all the data
         cluster_col: str
-            The feature name holding the cluster values
+            The column name holding the cluster values
         cluster_size: integer
             The number of total cluster groups
         cols: list
-            The feature list on which to provide description
+            The column list on which to provide description
 
         Returns
         =-----=
@@ -337,453 +353,5 @@ class dataCleaner():
             self.logger.info(f'basic analysis on {cluster_size} clusters' +
                              'computed successfully')
         except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-
-
-
-    # new additions
-    # TODO: add try, except finally _ DONE
-    # TODO: add comment _ DONE
-    # TODO: add logger _ DONE
-    # TODO: PEP8
-    def fix_missing_ffill(self, df: pd.DataFrame, cols: list) -> None:
-        """
-        A function to fill missing values with the ffill method
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        cols: list
-            A list containing the missing values
-
-        Returns
-        =-----=
-        None: nothing
-            Just fills the missing values
-        """
-        try:
-            for col in cols:
-                old = df[col].isna().sum()
-                df[col] = df[col].fillna(method='ffill')
-                new = df[col].isna().sum()
-                if new == 0:
-                    print(f"{old} missing values in the feature {col} have been replaced \
-                        using the forward fill method.")
-                    self.logger.info(f"{old} missing values in the feature {col} have been replaced \
-                        using the forward fill method.")
-                else:
-                    count = old - new
-                    print(f"{count} missing values in the feature {col} have been replaced \
-                        using the forward fill method. {new} missing values that couldn't be \
-                        imputed still remain in the feature {col}.")
-                    self.logger.info(f"{count} missing values in the feature {col} have been replaced \
-                        using the forward fill method. {new} missing values that couldn't be \
-                        imputed still remain in the features {col}.")
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-
-    def fix_missing_bfill(self, df: pd.DataFrame, cols: list) -> None:
-        """
-        A function to fill missing values with the bfill method
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        cols: list
-            A list containing the missing values
-
-        Returns
-        =-----=
-        None: nothing
-            Just fills the missing values
-        """
-        try:
-            for col in cols:
-                old = df[col].isna().sum()
-                df[col] = df[col].fillna(method='bfill')
-                new = df[col].isna().sum()
-                if new == 0:
-                    self.logger.info(f"{old} missing values in the feature {col} have been replaced \
-                        using the backward fill method.")
-                    print(f"{old} missing values in the feature {col} have been replaced \
-                        using the backward fill method.")
-                else:
-                    count = old - new
-                    self.logger.info(f"{count} missing values in the feature {col} have been replaced \
-                        using the backward fill method. {new} missing values that couldn't be \
-                        imputed still remain in the feature {col}.")
-                    print(f"{count} missing values in the feature {col} have been replaced \
-                        using the backward fill method. {new} missing values that couldn't be \
-                        imputed still remain in the feature {col}.")
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-
-    def missing_values_table(self, df: pd.DataFrame) -> pd.DataFrame:
-        """
-        A function to calculate missing values by features
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        
-        Returns
-        =-----=
-        mis_val_table_ren_columns: pandas data frame
-            The data frame containing missing value information
-        """
-        try:
-            # Total missing values
-            mis_val = df.isnull().sum()
-
-            # Percentage of missing values
-            mis_val_percent = 100 * mis_val / len(df)
-
-            # dtype of missing values
-            mis_val_dtype = df.dtypes
-
-            # Make a table with the results
-            mis_val_table = pd.concat([mis_val, mis_val_percent, mis_val_dtype],
-                                    axis=1)
-
-            # Rename the features
-            mis_val_table_ren_columns = mis_val_table.rename(
-            columns = {0 : 'Missing Values', 1 : '% of Total Values', 2: 'Dtype'})
-
-            # Sort the table by percentage of missing descending and remove features with no missing values
-            mis_val_table_ren_columns = mis_val_table_ren_columns[
-                mis_val_table_ren_columns.iloc[:,0] != 0].sort_values(
-            '% of Total Values', ascending=False).round(2)
-
-            # Print some summary information
-            print ("Your selected dataframe has " + str(df.shape[1]) + " features.\n"
-                "There are " + str(mis_val_table_ren_columns.shape[0]) +
-                " features that have missing values.")
-            self.logger.info("Your selected dataframe has " + str(df.shape[1]) + " features.\n"
-                "There are " + str(mis_val_table_ren_columns.shape[0]) +
-                " features that have missing values.")
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            if mis_val_table_ren_columns.shape[0] == 0:
-                return
-            # Return the dataframe with missing information
-            return mis_val_table_ren_columns
-
-    def fix_missing_value(self, df: pd.DataFrame, cols: list, value: int) -> None:
-        """
-        A function to fix missing values by a given value
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        cols: list
-            List of features containing the names of the missing values
-        value: integer
-            The value to fill the missing values with
-        
-        Returns
-        =-----=
-        None: noting
-            Just fills the missing value with a given value
-        """
-        try:
-            for col in cols:
-                count = df[col].isna().sum()
-                df[col] = df[col].fillna(value)
-                if type(value) == 'str':
-                    self.logger.info(f"{count} missing values in the feature {col} have been replaced by \'{value}\'.")
-                    print(f"{count} missing values in the feature {col} have been replaced by \'{value}\'.")
-                else:
-                    self.logger.info(f"{count} missing values in the feature {col} have been replaced by {value}.")
-                    print(f"{count} missing values in the feature {col} have been replaced by {value}.")
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
- 
-    def convert_to_string(self, df: pd.DataFrame, columns: list) -> pd.DataFrame :
-        """
-        A function to convert features to string data type
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        columns: list
-            List of features to be converted to string data types
-        
-        Returns
-        =-----=
-        df: pandas data frame
-            The converted data frame
-        """
-        try: 
-            for col in columns:
-                df[col] = df[col].astype("string")
-                self.logger.info(f'feature: {col} converted to string data type format')
-                print(f'feature: {col} converted to string data type format')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return df
-
-    def convert_to_numeric(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
-        """
-        A function to convert features to numeric data type
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        columns: list
-            List of features to be converted to numeric data types
-        
-        Returns
-        =-----=
-        df: pandas data frame
-            The converted data frame
-        """
-        try:
-            for col in columns:
-                df[col] = pd.to_numeric(df[col])
-                self.logger.info(f'feature: {col} converted to numeric data type format')
-                print(f'feature: {col} converted to numeric data type format')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return df
-
-    def convert_to_int(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
-        """
-        A function to convert features to integer data type
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        columns: list
-            List of features to be converted to integer data types
-        
-        Returns
-        =-----=
-        df: pandas data frame
-            The converted data frame
-        """
-        try:
-            for col in columns:
-                df[col] = df[col].astype("int64")
-                self.logger.info(f'feature: {col} converted to integer data type format')
-                print(f'feature: {col} converted to integer data type format')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return df
-
-    def convert_to_datetime(self, df: pd.DataFrame, columns: list) -> pd.DataFrame:
-        """
-        A function to convert features to datetime data type
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        columns: list
-            List of features to be converted to datetime data types
-        
-        Returns
-        =-----=
-        df: pandas data frame
-            The converted data frame
-        """
-        try:
-            for col in columns:
-                df[col] = pd.to_datetime(df[col], errors='raise')
-                self.logger.info(f'feature: {col} successfully changed to datetime')
-                print(f'feature: {col} successfully changed to datetime')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return df
-
-    def multiply_by_factor(self, df: pd.DataFrame, columns: list, factor: float) -> pd.DataFrame:
-        """
-        A function that multiplies a features by a given factor
-
-        Parameters
-        =--------=
-        df: pandas dataframe
-            The main dataframe
-        columns: list
-            List of features to be multiplied by a factor
-        factor: float
-            The multiplying factor
-        
-        Returns
-        =-----=
-        df: pandas data frame
-            The multiplied data frame
-        """
-        try:
-            for col in columns:
-                df[col] = df[col] * factor
-                self.logger.info(f'feature: {col} multiplied by a factor of: {factor}')
-                print(f'feature: {col} multiplied by a factor of: {factor}')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return df
-
-    def show_cols_mixed_dtypes(self, df: pd.DataFrame) -> None:
-        """
-        A function to show mixed data types
-
-        Parameters
-        =--------=
-        df: pandas data frame
-            The main data frame
-
-        Returns
-        =-----=
-        None: nothing
-            Just prints the mixed data types
-        """
-        try:
-            mixed_dtypes = {'Column': [], 'Data type': []}
-            for col in df.columns:
-                dtype = pd.api.types.infer_dtype(df[col])
-                if dtype.startswith("mixed"):
-                    mixed_dtypes['Column'].append(col)
-                    mixed_dtypes['Data type'].append(dtype)
-            if len(mixed_dtypes['Column']) == 0:
-                self.logger.info('None of the features contain mixed types.')
-                print('None of the features contain mixed types.')
-            else:
-                self.logger.info(pd.DataFrame(mixed_dtypes))
-                print(pd.DataFrame(mixed_dtypes))
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-
-    def drop_duplicates(self, df: pd.DataFrame) -> None:
-        """
-        A function to drop duplicates
-
-        Parameters
-        =--------=
-        df: pandas data frame
-            The main data frame
-
-        Returns
-        =-----=
-        None: nothing
-            Just drops duplicates from the data set
-        """
-        try:
-            old = df.shape[0]
-            df.drop_duplicates(inplace=True)
-            new = df.shape[0]
-            count = old - new
-            if (count == 0):
-                self.logger.info("No duplicate rows were found.")
-                print("No duplicate rows were found.")
-            else:
-                self.logger.info(f"{count} duplicate rows were found and removed.")
-                print(f"{count} duplicate rows were found and removed.")
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-    
-    def getMonth(self, month_list: list, index: int) -> int:
-        """
-        A function to return the index of a given month
-
-        Parameters
-        =--------=
-        month_lits: list
-            List of months
-        index: int
-            The index of the required grouping
-        Returns
-        =-----=
-        months.index: int
-            The index of the given month
-        """
-        try:
-            months = ['0', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
-            month_list = month_list.split(',')
-            month = month_list[index]
-            self.logger.info(f'month index calculated for the month: {month}. Value: {months.index(month)}')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return months.index(month)
-
-    def encode_to_numeric(self, data: pd.DataFrame, columns: list) -> pd.DataFrame:
-        """
-        A function to change categorical variables to numerical value
-        
-        Parameters
-        =--------=
-        data: pandas data frame
-            The main data frame
-        columns: list
-            The list of features to be label encoded
-        
-        Returns
-        =-----=
-        data: pandas dataframe
-            The data frame with selected features label encoded
-        """
-        try:
-            lb = preprocessing.LabelEncoder()
-            for cols in columns:
-                data[cols] = lb.fit_transform(data[cols])
-                self.logger.info(f'feature: {cols} label encoded')
-                print(f'feature: {cols} label encoded')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
-            print(e)
-        finally:
-            return data
-
-    def save_data(self, df: pd.DataFrame, path: str, type: str = 'csv', index: bool = False) -> None:
-        """
-        A function to save data frames to file
-
-        Parameters
-        =--------=
-        df: pandas data frame
-            The data frame to save
-        path: string
-            The path of the file to save to
-        type: string
-            The type of the file to be saved as
-        index: bool
-            Whether the file to be saved will have an index or not
-
-        Returns
-        =-----=
-        None: nothing
-            Just saves the data frame to file
-        """
-        try:
-            if type == 'csv':
-                df.to_csv(path, index=index)
-                self.logger.debug(f'data frame with shape: {df.shape} saved as a csv file at path: {path} successfully')
-                print(f'data frame with shape: {df.shape} saved as a csv file at path: {path} successfully')
-        except Exception as e:
-            self.logger.error(e, exec_info=True)
+            self.logger.error(e)
             print(e)
