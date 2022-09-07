@@ -6,6 +6,9 @@ A script to visualize data.
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 import logging
 
 
@@ -213,6 +216,14 @@ class dataVisualizer():
 
     def plot_scatter(self, df: pd.DataFrame, x_col: str, y_col: str,
                      title: str, hue: str, style: str) -> None:
+        """
+        # scatter: Plot data as a scatter plot.
+        # df: dataframe to be plotted
+        # x_col: x-axis column
+        # y_col: y-axis column
+        # title: Title of the plot
+        # hue: hue column
+        """
         self.logger.info('setting up scatter plot')
         plt.figure(figsize=(12, 7))
         sns.scatterplot(data=df, x=x_col, y=y_col, hue=hue, style=style)
@@ -233,3 +244,33 @@ class dataVisualizer():
                              palette=["gold", "purple"],
                              ax=axs[col][f])
         self.logger.info('several bi-variate plots plotted successfully')
+
+
+
+
+
+    # TODO: NEW ADDITIONS
+    def plotly_plot_pie(self, df, column, limit=None, title=None):
+        a = pd.DataFrame({'count': df.groupby([column]).size()}).reset_index()
+        a = a.sort_values("count", ascending=False)
+        if limit:
+            a.loc[a['count'] < limit, column] = f'Other {column}s'
+        if title == None:
+            title=f'Distribution of {column}'
+        fig = px.pie(a, values='count', names=column, title=title, width=800, height=500)
+        fig.show()
+
+    def plot_factor(self, data: pd.DataFrame, x: str, y: str, col: str,
+                    palette: str, hue: str, col_order: list, 
+                    title:str) -> None:
+        """
+        """
+        try:
+            self.logger.info('setting up factor plot')
+            #plt.figure(figsize=(12, 7))
+            sns.factorplot(data= data, x=x, y=y, col=col, palette=palette, 
+                        hue=hue, col_order=col_order, title=title)
+            plt.show()
+        except Exception as e:
+            self.logger.error(e, exec_info=True)
+            print(e)
