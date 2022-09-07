@@ -24,10 +24,11 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "# Data preparation generated data frames" >> report.md
+          cml publish plots/train_data.png --md >> report.md
+          cml publish plots/store_data.png --md >> report.md
+          cml publish plots/full_data.png --md >> report.md
           echo "# EDA generated plots" >> report.md
-          # cml publish plots/eda-fig-experiment.png --md >> report.md
-          # cml publish plots/eda-fig-exp-yes.png --md >> report.md
-          # cml publish plots/eda-fig-exp-no.png --md >> report.md
           # cml publish plots/eda-fig-date.png --md >> report.md
           # cml publish plots/eda-fig-device-make.png --md >> report.md
           # cml publish plots/platform-split-feature-importance.png--md >> report.md
