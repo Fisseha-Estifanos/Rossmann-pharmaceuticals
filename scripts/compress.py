@@ -14,6 +14,7 @@ logger.info('created a data compressor logger for compress.py file.')
 
 # set up paths and helper scripts
 sys.path.append('.')
+sys.path.append('..')
 sys.path.insert(1, '../scripts/')
 from defaults import *
 
