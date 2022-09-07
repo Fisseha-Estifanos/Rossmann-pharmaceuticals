@@ -787,3 +787,93 @@ class dataCleaner():
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
+
+
+
+
+
+    # TODO: NEW ADDITIONS
+    # get state holiday list
+    # 10 days for Easter
+    # 3 days for public holiday
+    # Considering christmas lasts for 12 days, Easter for 50 days and public holidays for 1 day.
+    #a = public holiday, b = Easter holiday, c = Christmas, 0 = None
+    def affect_list(self, change_list, interval, duration, index):
+        start_pt = int(index-duration/2) - interval
+        try:
+            for index in range(start_pt, start_pt + interval):
+                change_list[index] = 'before'
+            for index in range(start_pt + interval, start_pt + interval + duration):
+                change_list[index] = 'during'
+            for index in range(start_pt + interval + duration, start_pt + interval + duration + interval):
+                change_list[index] = 'after'
+        except:
+            pass
+        return change_list
+
+    def modify_holiday_list(self, holiday_list:list) -> list:
+        new_index = ["neither"] * len(holiday_list)
+        for index , value in enumerate(holiday_list):
+            if value == 'a': #public holiday
+                self.affect_list(new_index, 3, 1, index)
+            elif value == 'b': #Easter
+                self.affect_list(new_index, 10, 50, index)
+            elif value == 'c': # christmas
+                self.affect_list(new_index, 5, 12, index)
+            else:
+                pass
+        return new_index
+
+    def change_columns_type_to(self, df : pd.DataFrame, cols: list, data_type: str) -> pd.DataFrame:
+        """
+        Returns a DataFrame where the specified columns data types are changed to the specified data type
+        Parameters
+        ----------
+        cols:
+            Type: list
+        data_type:
+            Type: str
+        Returns
+        -------
+        pd.DataFrame
+        """
+        try:
+            for col in cols:
+                df[col] = df[col].astype(data_type)
+                self.logger.info(f"Successfully changed column: {col} type to {data_type}")
+        except Exception as e:
+            self.logger.error(e, trace_info=True)
+            print(e, 'Failed to change columns type')
+        finally:
+            return df 
+
+    def optimize_df(self, df : pd.DataFrame) -> pd.DataFrame:
+        """
+        Returns the DataFrames information after all column data types are optimized (to a lower data type)
+        Parameters
+        ----------
+        None
+        Returns
+        -------
+        pd.DataFrame
+        """
+        data_types = df.dtypes
+        optimize = ['float64', 'int64']
+        try:
+            for col in data_types.index:
+                if(data_types[col] in optimize):
+                    if(data_types[col] == 'float64'):
+                        # downcast a float column
+                        df[col] = pd.to_numeric(
+                            df[col], downcast='float')
+                    elif(data_types[col] == 'int64'):
+                        # downcast an integer column
+                        df[col] = pd.to_numeric(
+                            df[col], downcast='unsigned')
+            self.logger.info(f"DataFrame optimized")
+            print(f"DataFrame optimized")
+        except Exception as e:
+            self.logger.error(e, trace_info=True)
+            print(e, 'Failed to optimize')
+        finally:
+            return df
