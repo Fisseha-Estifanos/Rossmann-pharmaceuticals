@@ -824,7 +824,7 @@ class dataCleaner():
                 pass
         return new_index
 
-    def change_columns_type_to(df : pd.DataFrame, cols: list, data_type: str) -> pd.DataFrame:
+    def change_columns_type_to(self, df : pd.DataFrame, cols: list, data_type: str) -> pd.DataFrame:
         """
         Returns a DataFrame where the specified columns data types are changed to the specified data type
         Parameters
@@ -840,12 +840,14 @@ class dataCleaner():
         try:
             for col in cols:
                 df[col] = df[col].astype(data_type)
-        except:
-            print('Failed to change columns type')
-        #self.logger.info(f"Successfully changed columns type to {data_type}")
-        return 
+                self.logger.info(f"Successfully changed column: {col} type to {data_type}")
+        except Exception as e:
+            self.logger.error(e, trace_info=True)
+            print(e, 'Failed to change columns type')
+        finally:
+            return df 
 
-    def optimize_df(df : pd.DataFrame) -> pd.DataFrame:
+    def optimize_df(self, df : pd.DataFrame) -> pd.DataFrame:
         """
         Returns the DataFrames information after all column data types are optimized (to a lower data type)
         Parameters
@@ -868,8 +870,10 @@ class dataCleaner():
                         # downcast an integer column
                         df[col] = pd.to_numeric(
                             df[col], downcast='unsigned')
-            #self.logger.info(f"DataFrame optimized")
+            self.logger.info(f"DataFrame optimized")
+            print(f"DataFrame optimized")
+        except Exception as e:
+            self.logger.error(e, trace_info=True)
+            print(e, 'Failed to optimize')
+        finally:
             return df
-
-        except:
-            print('Failed to optimize')

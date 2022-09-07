@@ -181,7 +181,8 @@ class dataVisualizer():
         plt.show()
         self.logger.info(f'{title} bar plot plotted successfully')
 
-    # TODO : update this correlation map with the one from last week
+    # TODO : update this correlation map with the one from last week and
+    # compare it with the new one below
     def plot_heatmap(self, df: pd.DataFrame, title: str, cbar: bool = False,
                      save_as: str = '') -> None:
         self.logger.info('setting up heat map plot')
@@ -193,6 +194,17 @@ class dataVisualizer():
         else:
             plt.savefig(save_as)
         self.logger.info(f'{title} heat map plot plotted successfully')
+
+    def plot_heatmap_from_correlation(self, correlation, title: str):
+        '''
+        heatmap: Plot rectangular data as a color-encoded matrix and correlation matrix.
+        title: Title of the plot
+        correlation: correlation matrix
+        '''
+        plt.figure(figsize=(14, 9))
+        sns.heatmap(correlation)
+        plt.title(title, size=18, fontweight='bold')
+        plt.show()
 
     def plot_box(self, df: pd.DataFrame, x_col: str, title: str) -> None:
         self.logger.info('setting up box plot')
@@ -274,3 +286,15 @@ class dataVisualizer():
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
+
+    def plotly_plot_hist(self, df, column, color=['cornflowerblue'], title=None):
+        if title == None:
+            title=f'Distribution of {column}'
+        fig = px.histogram(
+                df,
+                x=column,
+                marginal='box',
+                color_discrete_sequence=color,
+                title=title)
+        fig.update_layout(bargap=0.01)
+        fig.show()
