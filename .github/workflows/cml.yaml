@@ -46,5 +46,11 @@ jobs:
           cml publish plots/school-hol.png --md >> report.md
           echo "* State holiday" >> report.md
           cml publish plots/state-hol.png --md >> report.md
+          
+          echo "# DVC versioning evidence" >> report.md
+          echo "* Evidence I" >> report.md
+          cml publish plots/data-preparation-I.jpg --md >> report.md
+          echo "* Evidence II" >> report.md
+          cml publish plots/data-preparation-II.jpg --md >> report.md
 
           cml send-comment report.md
