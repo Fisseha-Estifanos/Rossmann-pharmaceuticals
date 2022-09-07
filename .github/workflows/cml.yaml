@@ -25,17 +25,26 @@ jobs:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           echo "# Data preparation generated data frames" >> report.md
-          cml publish plots/train_data.png --md >> report.md
           echo "* Cleaned training data frame" >> report.md
-          cml publish plots/store_data.png --md >> report.md
+          cml publish plots/train_data.png --md >> report.md
           echo "* Cleaned store data frame" >> report.md
-          cml publish plots/full_data.png --md >> report.md
+          cml publish plots/store_data.png --md >> report.md
           echo "* Cleaned (store data set X training data set) merged data frame" >> report.md
+          cml publish plots/full_data.png --md >> report.md
 
           echo "# EDA generated plots" >> report.md
-          cml publish plots/scatter-sales-month-promo.png --md >> report.md
           echo "* Month X Sales X promotion scatter plot" >> report.md
-          cml publish plots/scatter-sales-comp-distance.png --md >> report.md
+          cml publish plots/scatter-sales-month-promo.png --md >> report.md
           echo "* Sales X competition distance scatter plot" >> report.md
+          cml publish plots/scatter-sales-comp-distance.png --md >> report.md
+
+          echo "* Assortment" >> report.md
+          cml publish plots/assortment.png --md >> report.md
+          echo "* Competition distance" >> report.md
+          cml publish plots/comp-dist.png --md >> report.md
+          echo "* School holiday" >> report.md
+          cml publish plots/school-hol.png --md >> report.md
+          echo "* State holiday" >> report.md
+          cml publish plots/state-hol.png --md >> report.md
 
           cml send-comment report.md
