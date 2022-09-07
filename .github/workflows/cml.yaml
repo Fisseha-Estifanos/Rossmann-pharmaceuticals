@@ -26,12 +26,16 @@ jobs:
         run: |
           echo "# Data preparation generated data frames" >> report.md
           cml publish plots/train_data.png --md >> report.md
+          echo "* Cleaned training data frame" >> report.md
           cml publish plots/store_data.png --md >> report.md
+          echo "* Cleaned store data frame" >> report.md
           cml publish plots/full_data.png --md >> report.md
+          echo "* Cleaned (store data set X training data set) merged data frame" >> report.md
+
           echo "# EDA generated plots" >> report.md
-          # cml publish plots/eda-fig-date.png --md >> report.md
-          # cml publish plots/eda-fig-device-make.png --md >> report.md
-          # cml publish plots/platform-split-feature-importance.png--md >> report.md
-          # cml publish plots/browser-split-feature-importance.png --md >> report.md
-          # cml publish plots/eda-fig-correlation.png --md >> report.md
+          cml publish plots/scatter-sales-month-promo.png --md >> report.md
+          echo "* Month X Sales X promotion scatter plot" >> report.md
+          cml publish plots/scatter-sales-comp-distance.png --md >> report.md
+          echo "* Sales X competition distance scatter plot" >> report.md
+
           cml send-comment report.md
