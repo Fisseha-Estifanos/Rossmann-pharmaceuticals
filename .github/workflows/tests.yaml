@@ -1,4 +1,4 @@
-name: package-structure-and-unit-tests
+name: Structure & unit tests
 on: 
   push:
     branches:
