@@ -3,6 +3,9 @@ on:
   push:
     branches:
     - main
+    - eda
+    - data-pred
+  pull_request:
 jobs:
   run:
     runs-on: ubuntu-latest 

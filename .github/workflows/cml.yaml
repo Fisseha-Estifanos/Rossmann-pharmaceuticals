@@ -1,5 +1,11 @@
 name: Base cml actions
-on: [push]
+on: 
+  push:
+    branches:
+    - main
+    - eda
+    - data-pred
+  pull_request:
 jobs:
   Explore-GitHub-Actions:
     runs-on: ubuntu-latest
@@ -18,7 +24,7 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "## EDA generated plots" >> report.md
+          echo "# EDA generated plots" >> report.md
           # cml publish plots/eda-fig-experiment.png --md >> report.md
           # cml publish plots/eda-fig-exp-yes.png --md >> report.md
           # cml publish plots/eda-fig-exp-no.png --md >> report.md
