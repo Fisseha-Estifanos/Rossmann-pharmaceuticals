@@ -325,3 +325,6 @@ INFO : 2022-09-08 00:28:14,259 : dataVisualizer : plot_factor --> setting up fac
 INFO : 2022-09-08 00:29:21,814 : dataVisualizer : plot_factor --> setting up factor plot
 INFO : 2022-09-08 00:30:13,140 : dataVisualizer : plot_factor --> setting up factor plot
 INFO : 2022-09-08 00:31:02,446 : dataVisualizer : plot_factor --> setting up factor plot
+INFO : 2022-09-08 16:17:59,162 : dataVisualizer : __init__ --> 
+    #####-->    Data visualizer logger for base line modeling notebook    <--#####
+
