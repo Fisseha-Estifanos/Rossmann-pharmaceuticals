@@ -23,3 +23,5 @@ stages:
       - eda.testFile
       - eda.storeFile
       - eda.mergedFile
+  preprocess:
+    cmd: python scripts/preprocess_stage.py
