@@ -25,3 +25,9 @@ stages:
       - eda.mergedFile
   preprocess:
     cmd: python scripts/preprocess_stage.py
+  baseLineModel:
+    cmd: python scripts/baseLineModel.py
+  machineLearningModel:
+    cmd: python scripts/mlModel.py
+  deepLearningModel:
+    cmd: python scripts/dlModel.py
