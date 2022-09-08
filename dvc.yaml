@@ -1,0 +1,25 @@
+stages:
+  data_preparation:
+    cmd: python scripts/preparation_stage.py
+    deps: 
+      - data_preparation.version
+      - data_preparation.fromThe
+      - data_preparation.missing_values
+      - data_preparation.trainFile
+      - data_preparation.testFile
+      - data_preparation.storeFile
+    outs:
+      - data_preparation.trainFile
+      - data_preparation.testFile
+      - data_preparation.storeFile
+      - data_preparation.mergedFile
+  eda:
+    cmd: python scripts/eda_stage.py
+    deps:
+      - eda.version
+      - eda.fromThe
+      - eda.missing_values
+      - eda.trainFile
+      - eda.testFile
+      - eda.storeFile
+      - eda.mergedFile
