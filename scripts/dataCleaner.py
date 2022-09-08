@@ -141,6 +141,7 @@ class dataCleaner():
             self.logger.error(e, exec_info=True)
             print(e)
 
+    # TODO: compare this fill method with others
     def fillWithMedian(self, df: pd.DataFrame, cols: list) -> pd.DataFrame:
         """
         A function that fills null values with their corresponding median
@@ -171,6 +172,9 @@ class dataCleaner():
         finally:
             return df
 
+    # TODO: compare this fill method with others
+    # TODO: also group these methods together, write them one after the other
+    # instead of putting them in a scattered manner all over this script
     def fillWithMean(self, df: pd.DataFrame, cols: list) -> pd.DataFrame:
         """
         A function that fills null values with their corresponding mean
@@ -347,6 +351,8 @@ class dataCleaner():
     # TODO: add comment _ DONE
     # TODO: add logger _ DONE
     # TODO: PEP8
+
+    # TODO: compare this fill method with others
     def fix_missing_ffill(self, df: pd.DataFrame, cols: list) -> None:
         """
         A function to fill missing values with the ffill method
@@ -385,6 +391,7 @@ class dataCleaner():
             self.logger.error(e, exec_info=True)
             print(e)
 
+    # TODO: compare this fill method with others
     def fix_missing_bfill(self, df: pd.DataFrame, cols: list) -> None:
         """
         A function to fill missing values with the bfill method
@@ -476,6 +483,7 @@ class dataCleaner():
             # Return the dataframe with missing information
             return mis_val_table_ren_columns
 
+    # TODO: compare this fill method with others
     def fix_missing_value(self, df: pd.DataFrame, cols: list, value: int) -> None:
         """
         A function to fix missing values by a given value
@@ -507,6 +515,46 @@ class dataCleaner():
         except Exception as e:
             self.logger.error(e, exec_info=True)
             print(e)
+
+    # TODO: compare this fill method with others
+    # TODO: test this method it has not been tested
+    def fill_missing_rolling(self, df: pd.DataFrame, cols: list, window: int=5, min_period=2) -> pd.DataFrame:
+        """
+        A function to fill missing values using the rolling method
+
+        Parameters
+        =--------=
+        df: pandas data frame
+            The main data frame
+        cols: list
+            List of features with missing values
+        window: integer
+            The window to calculate rolling method on
+
+        min_period: integer
+            The minimum value to use for the rolling method
+
+        Returns
+        =-----=
+        df: pandas data frame
+            The same data frame with the missing values filled using the
+            rolling method
+        """
+        try:
+            for col in cols:
+                df[col] = df[col].fillna(df[col].rolling(window=window, 
+                                         min_periods=min_period).mean())
+                self.logger.info(f'column: {col} filled with the rolling ' + 
+                                 f'method, window:{window}, min_periods: ' +
+                                 f'{min_period}')
+                print(f'column: {col} filled with the rolling method, ' +
+                      f'window:{window}, min_periods: {min_period}')
+        except Exception as e:
+            self.logger.error(e, exec_info=True)
+            print(e)
+        finally:
+            return df
+        
  
     def convert_to_string(self, df: pd.DataFrame, columns: list) -> pd.DataFrame :
         """
