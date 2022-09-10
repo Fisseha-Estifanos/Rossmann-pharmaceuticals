@@ -3,7 +3,6 @@ The machine learning modeling stage script.
 """
 
 print('Starting the machine learning modeling stage . . .')
-print('This is the machine learning modeling stage . . .')
 
 
 
