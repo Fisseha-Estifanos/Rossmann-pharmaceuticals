@@ -1,0 +1,25 @@
+data_preparation:
+  # basic parameters
+  version: 'v3'
+  fromThe: 'data preparation stage'
+  # missing and imputed features
+  missing_values: ["n/a", "na", "undefined", '?', 'NA', 'undefined']
+  dateFeature: 'Date'
+  # data files
+  trainFile: train.csv
+  testFile: test.csv
+  storeFile: store.csv
+  mergedFile: merged.csv
+
+eda:
+  # basic parameters
+  version: 'v4'
+  fromThe: 'exploratory data analysis stage'
+  # missing and imputed features
+  missing_values: ["n/a", "na", "undefined", '?', 'NA', 'undefined']
+  dateFeature: 'Date'
+  # data files
+  trainFile: train.csv
+  testFile: test.csv
+  storeFile: store.csv
+  mergedFile: merged.csv
