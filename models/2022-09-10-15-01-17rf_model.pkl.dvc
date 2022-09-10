@@ -1,0 +1,5 @@
+outs:
+- md5: e9c18e6985de912cec94407430045a29
+  size: 643
+  isexec: true
+  path: 2022-09-10-15-01-17rf_model.pkl
